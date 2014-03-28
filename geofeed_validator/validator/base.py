@@ -23,7 +23,6 @@
 # Stephan Peijnik <speijnik@anexia-it.com>
 #
 
-import cStringIO
 import inspect
 
 import six
@@ -62,7 +61,10 @@ class BaseValidator(object):
         self._feed = None
         self._store_raw_records = store_raw_records
         if isinstance(feed, six.string_types):
-            self._feed = cStringIO.StringIO(feed)
+            if not isinstance(feed, six.text_type):
+                feed = six.text_type(feed)
+
+            self._feed = six.StringIO(feed)
         elif is_file_like_object(feed):
             self._feed = feed
         else:

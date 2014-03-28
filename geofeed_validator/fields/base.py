@@ -82,8 +82,9 @@ class Field(object):
         if not type(check_result) in (list, tuple):
             raise ValueError('Error lists must be of type list or tuple.')
 
-        if len(filter(lambda s: isinstance(s, six.string_types), check_result)) != len(check_result):
-            raise ValueError('At least one non-string error was returned.')
+        for s in check_result:
+            if not isinstance(s, six.string_types):
+                raise ValueError('At least one non-string error was returned.')
 
         return check_result
 

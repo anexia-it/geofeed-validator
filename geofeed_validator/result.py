@@ -78,7 +78,7 @@ class RecordValidationResult(object):
         self._was_ignored = False
 
         #: :type: bool
-        self._has_extra = record.has_key('__extra__')
+        self._has_extra = '__extra__' in record.keys()
         #: :type: list of str
         self._extra = list()
         self._extra_offset = 0

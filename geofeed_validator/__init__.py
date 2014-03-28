@@ -23,7 +23,7 @@
 # Stephan Peijnik <speijnik@anexia-it.com>
 #
 
-import cStringIO
+
 import inspect
 
 import six
@@ -31,7 +31,7 @@ import six
 from geofeed_validator.utils import is_file_like_object
 from geofeed_validator.validator.base import BaseValidator, Registry
 
-__version__ = '0.5.0'
+__version__ = '0.5.1'
 
 
 class GeoFeedValidator(object):
@@ -66,7 +66,10 @@ class GeoFeedValidator(object):
             raise ValueError('Validator %r is invalid.' % validator)
 
         if isinstance(feed, six.string_types):
-            self._feed = cStringIO.StringIO(feed)
+            if not isinstance(feed, six.text_type):
+                feed = six.text_type(feed)
+
+            self._feed = six.StringIO(feed)
         elif is_file_like_object(feed):
             self._feed = feed
         else:

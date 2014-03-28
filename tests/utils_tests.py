@@ -23,8 +23,10 @@
 # Stephan Peijnik <speijnik@anexia-it.com>
 
 import unittest
-import cStringIO
+import six
+
 from geofeed_validator import is_file_like_object
+
 
 __all__ = ['IsFileLikeObjectTestCase']
 
@@ -33,4 +35,4 @@ class IsFileLikeObjectTestCase(unittest.TestCase):
         self.assertEqual(False, is_file_like_object('test'))
 
     def test_0001_is_file_like(self):
-        self.assertEqual(True, is_file_like_object(cStringIO.StringIO()))
+        self.assertEqual(True, is_file_like_object(six.StringIO()))
