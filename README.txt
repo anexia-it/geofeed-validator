@@ -1,3 +1,5 @@
+.. image:: https://travis-ci.org/anexia-it/geofeed-validator.svg   :target: https://travis-ci.org/anexia-it/geofeed-validator
+
 geofeed-validator is a Python library which implements validation for self-published geofeeds as defined in
 http://tools.ietf.org/html/draft-google-self-published-geofeeds-02.
 
