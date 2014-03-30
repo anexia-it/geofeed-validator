@@ -6,6 +6,13 @@ python:
   - "3.2"
   - "3.3"
 
-install: "pip install -r requirements.txt"
+install: 
+   - pip install --use-mirrors -r requirements.txt
+   - pip install --use-mirrors coveralls coverage
 
-script: "python setup.py test"
+script:
+   - coverage run --source=geofeed_validator setup.py test"
+   - coverage report -m
+
+after_script:
+   coveralls --verbose

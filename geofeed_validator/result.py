@@ -22,9 +22,8 @@
 #
 # Stephan Peijnik <speijnik@anexia-it.com>
 #
-import inspect
 
-import six
+import inspect
 
 from geofeed_validator.fields import Field
 
