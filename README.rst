@@ -8,16 +8,16 @@ geofeed-validator
 .. image:: https://coveralls.io/repos/anexia-it/geofeed-validator/badge.png?branch=master 
 	:target: https://coveralls.io/r/anexia-it/geofeed-validator?branch=master
 
-.. image:: https://pypip.in/d/geofeed_validator/badge.png
+.. image:: https://img.shields.io/pypi/dm/geofeed_validator.svg
         :target: https://pypi.python.org/pypi/geofeed_validator/
 
-.. image:: https://pypip.in/v/geofeed_validator/badge.png
+.. image:: https://img.shields.io/pypi/v/geofeed_validator.svg
         :target: https://pypi.python.org/pypi/geofeed_validator/
 
-.. image:: https://pypip.in/wheel/geofeed_validator/badge.png
+.. image:: https://img.shields.io/pypi/wheel/geofeed_validator.svg
         :target: https://pypi.python.org/pypi/geofeed_validator/
 
-.. image:: https://pypip.in/license/geofeed_validator/badge.png
+.. image:: https://img.shields.io/pypi/l/geofeed_validator.svg
         :target: https://pypi.python.org/pypi/geofeed_validator/
 
 
