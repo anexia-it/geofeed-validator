@@ -198,8 +198,8 @@ class NetworkFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
                          self.field.validate('192.168.0.0/24'))
 
     def test_0005_reserved(self):
-        self.assertEqual(((NetworkField.ERROR_RESERVED, ), tuple(), netaddr.IPNetwork('192.0.0.0/24')),
-                         self.field.validate('192.0.0.0/24'))
+        self.assertEqual(((NetworkField.ERROR_RESERVED, ), tuple(), netaddr.IPNetwork('192.0.2.0/24')),
+                         self.field.validate('192.0.2.0/24'))
 
     def test_0006_valid(self):
         self.assertEqual((tuple(), tuple(), netaddr.IPNetwork('8.8.8.8')),
