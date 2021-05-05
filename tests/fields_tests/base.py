@@ -213,7 +213,7 @@ class CountryFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
         self.assertEqual(((CountryField.ERROR, ), tuple(), None), self.field.validate('INVALID'))
 
     def test_0002_valid_alpha2(self):
-        self.assertEqual((tuple(), tuple(), pycountry.countries.get(alpha2='AT')), self.field.validate('AT'))
+        self.assertEqual((tuple(), tuple(), pycountry.countries.get(alpha_2='AT')), self.field.validate('AT'))
 
     def test_0004_to_string_valid(self):
         self.assertEqual('AT', self.field.to_string('AT'))

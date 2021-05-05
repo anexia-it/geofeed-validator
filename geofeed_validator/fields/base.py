@@ -145,14 +145,14 @@ class CountryField(Field):
 
     def to_python(self, value):
         if value:
-            return pycountry.countries.get(alpha2=value)
+            return pycountry.countries.get(alpha_2=value)
         return None
 
     def to_string(self, value):
         if value:
             try:
                 country = self.to_python(value)
-                return country.alpha2
+                return country.alpha_2
             except:
                 pass
         return ''
