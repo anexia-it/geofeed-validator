@@ -24,7 +24,7 @@
 #
 
 import unittest
-import six
+import io
 
 from geofeed_validator import GeoFeedValidator
 from geofeed_validator.result import ValidationResult
@@ -87,7 +87,7 @@ class GeoFeedValidatorTestCase(unittest.TestCase):
         self.assertEqual(Validator, validator._validator)
 
     def test_0004_init_filelike(self):
-        tv = GeoFeedValidator(six.StringIO())
+        tv = GeoFeedValidator(io.StringIO())
 
     def test_0005_init_string(self):
         tv = GeoFeedValidator('')

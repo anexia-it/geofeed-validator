@@ -25,8 +25,7 @@
 
 
 import inspect
-
-import six
+import io
 
 from geofeed_validator.utils import is_file_like_object
 from geofeed_validator.validator.base import BaseValidator, Registry
@@ -60,16 +59,13 @@ class GeoFeedValidator(object):
         if inspect.isclass(self._validator_name) and issubclass(self._validator_name, BaseValidator):
             self._validator = self._validator_name
             self._validator_name = self._validator.NAME
-        elif isinstance(self._validator_name, six.string_types):
+        elif isinstance(self._validator_name, str):
             self._validator = Registry.find(self._validator_name)
         else:
             raise ValueError('Validator %r is invalid.' % validator)
 
-        if isinstance(feed, six.string_types):
-            if not isinstance(feed, six.text_type):
-                feed = six.text_type(feed)
-
-            self._feed = six.StringIO(feed)
+        if isinstance(feed, str):
+            self._feed = io.StringIO(feed)
         elif is_file_like_object(feed):
             self._feed = feed
         else:

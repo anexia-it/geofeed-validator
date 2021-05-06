@@ -24,7 +24,7 @@
 #
 
 import unittest
-import six
+import io
 
 from geofeed_validator import BaseValidator, Registry
 from geofeed_validator.fields import NetworkField, ZipCodeField, CityField, SubdivisionField, CountryField
@@ -56,7 +56,7 @@ class BaseValidatorTestCase(unittest.TestCase):
             FIELDS = (NetworkField,)
 
         tv = TestValidator4('')
-        tv = TestValidator4(six.StringIO())
+        tv = TestValidator4(io.StringIO())
         self.assertRaises(ValueError, TestValidator4, None)
 
     def test_0001_get_records_unimplemented(self):
@@ -74,7 +74,7 @@ class BaseValidatorTestCase(unittest.TestCase):
             FIELDS = (NetworkField,)
 
             def get_records(self):
-                return [({},''),]
+                return [({}, ''),]
 
         tv = TestValidator('')
         res = tv.validate()
