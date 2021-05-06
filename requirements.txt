@@ -1,2 +1,2 @@
-pycountry>=1.4
+pycountry>=16.11.27.1
 netaddr>=0.7.11
