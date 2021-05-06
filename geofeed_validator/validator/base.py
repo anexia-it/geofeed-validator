@@ -24,8 +24,7 @@
 #
 
 import inspect
-
-import six
+import io
 
 from geofeed_validator.fields import Field, NetworkField, CountryField, SubdivisionField, CityField, ZipCodeField
 from geofeed_validator.utils import is_file_like_object
@@ -41,7 +40,7 @@ class BaseValidator(object):
     RECORD_NAME = 'record'
 
     def __init__(self, feed, store_raw_records=False):
-        if not isinstance(getattr(self, 'NAME', None), six.string_types):
+        if not isinstance(getattr(self, 'NAME', None), str):
             raise ValueError('NAME class-attribute of %r not set or invalid (type=%r).'
                              % (self.__class__, type(getattr(self, 'NAME', None))))
 
@@ -60,11 +59,8 @@ class BaseValidator(object):
 
         self._feed = None
         self._store_raw_records = store_raw_records
-        if isinstance(feed, six.string_types):
-            if not isinstance(feed, six.text_type):
-                feed = six.text_type(feed)
-
-            self._feed = six.StringIO(feed)
+        if isinstance(feed, str):
+            self._feed = io.StringIO(feed)
         elif is_file_like_object(feed):
             self._feed = feed
         else:
@@ -179,7 +175,7 @@ class Registry(object):
         if not inspect.isclass(validator_class) or not issubclass(validator_class, BaseValidator):
             raise ValueError('%r is not a subclass of BaseValidator.' % validator_class)
 
-        if not isinstance(getattr(validator_class, 'NAME', None), six.string_types):
+        if not isinstance(getattr(validator_class, 'NAME', None), str):
             raise ValueError('NAME class-attribute missing from %r.' % validator_class)
 
         cls.VALIDATORS[getattr(validator_class, 'NAME')] = validator_class
