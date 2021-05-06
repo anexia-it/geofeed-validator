@@ -87,7 +87,7 @@ class BaseValidator(object):
 
         if network:
             network_str = str(network.value)
-            if network_str in networks.keys():
+            if network_str in networks:
                 for other_network_record in networks[network_str]:
                     other_network_record.add_field_errors(NetworkField, 'Duplicate of %s #%d' % (self.RECORD_NAME,
                                                                                                  record.record_no))
@@ -182,7 +182,7 @@ class Registry(object):
 
     @classmethod
     def find(cls, name):
-        if not name in cls.VALIDATORS.keys():
+        if not name in cls.VALIDATORS:
             raise KeyError('Validator with name %r not registered.' % name)
         return cls.VALIDATORS[name]
 

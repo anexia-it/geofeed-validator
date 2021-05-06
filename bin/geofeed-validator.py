@@ -30,6 +30,8 @@ import sys
 import os
 import traceback
 
+from urllib.request import urlopen
+
 from geofeed_validator import GeoFeedValidator, __version__, Registry
 
 QUIET = False
@@ -125,17 +127,16 @@ def main(argv=sys.argv):
     if os.path.exists(args.source):
         try:
             fp = open(args.source, 'r')
-        except IOError, e:
+        except IOError as e:
             sys.stderr.write('*** ERROR: Could not read %s: %s\n' % (args.source, e))
             return 2
 
     else:
-        import urllib2
         try:
             write_console('*** Fetching %s: ', args.source)
-            fp = urllib2.urlopen(args.source, timeout=3)
+            fp = urlopen(args.source, timeout=3)
             write_console_line('DONE.')
-        except Exception, e:
+        except Exception as e:
             write_console_line('FAILED.')
             sys.stderr.write('*** ERROR: Could not open URL %s: %s\n' % (args.source, e))
             return 2

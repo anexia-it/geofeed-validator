@@ -74,7 +74,7 @@ class BaseValidatorTestCase(unittest.TestCase):
             FIELDS = (NetworkField,)
 
             def get_records(self):
-                return [({},''),]
+                return [({}, ''),]
 
         tv = TestValidator('')
         res = tv.validate()

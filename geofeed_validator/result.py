@@ -77,7 +77,7 @@ class RecordValidationResult(object):
         self._was_ignored = False
 
         #: :type: bool
-        self._has_extra = '__extra__' in record.keys()
+        self._has_extra = '__extra__' in record
         #: :type: list of str
         self._extra = list()
         self._extra_offset = 0
@@ -99,7 +99,7 @@ class RecordValidationResult(object):
             return
 
         for field in self._fields:
-            if not field in self._record.keys():
+            if not field in self._record:
                 self._field_results.append(FieldResult(field, None, ['Field is missing.'], [], None, ''))
             else:
                 # Validate the field data...
@@ -108,9 +108,9 @@ class RecordValidationResult(object):
                                                        self._record[field], field.to_string(self._record[field])))
 
     def add_field_errors(self, field, errors):
-        if type(errors) == tuple:
+        if isinstance(errors, tuple):
             errors = list(errors)
-        elif type(errors) != list:
+        elif not isinstance(errors, list):
             errors = [errors,]
 
         field_result = self.get_field_result(field)
@@ -121,9 +121,9 @@ class RecordValidationResult(object):
         self._field_results.append(FieldResult(field, None, errors, [], None, ''))
 
     def add_field_warnings(self, field, warnings):
-        if type(warnings) == tuple:
+        if isinstance(warnings, tuple):
             warnings = list(warnings)
-        elif type(warnings) != list:
+        elif not isinstance(warnings, list):
             warnings = [warnings,]
 
         field_result = self.get_field_result(field)
@@ -171,11 +171,11 @@ class RecordValidationResult(object):
 
     @property
     def error_count(self):
-        return sum(map(lambda fr: len(fr.errors), self._field_results))
+        return sum([len(fr.errors) for fr in self._field_results])
 
     @property
     def warning_count(self):
-        return sum(map(lambda fr: len(fr.warnings), self._field_results))
+        return sum([len(fr.warnings) for fr in self._field_results])
 
     @property
     def has_errors(self):
@@ -224,7 +224,7 @@ class ValidationResult(object):
             return list()
 
         # TODO: this seems to be broken if the number of records is one.
-        return list(map(lambda r: r.raw, self._records))
+        return [r.raw for r in self._records]
 
     @property
     def fields(self):
@@ -232,11 +232,11 @@ class ValidationResult(object):
 
     @property
     def error_count(self):
-        return sum(map(lambda r: r.error_count, self._records))
+        return sum([r.error_count for r in self._records])
 
     @property
     def warning_count(self):
-        return sum(map(lambda r: r.warning_count, self._records))
+        return sum([r.warning_count for r in self._records])
 
     @property
     def records(self):
