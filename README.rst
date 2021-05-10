@@ -1,9 +1,8 @@
 =================
 geofeed-validator
 =================
-
-.. image:: https://travis-ci.org/anexia-it/geofeed-validator.svg?branch=master
-	:target: https://travis-ci.org/anexia-it/geofeed-validator
+.. image:: https://github.com/anexia-it/geofeed-validator/actions/workflows/python-package.yml/badge.svg?branch=master
+	:target: https://github.com/anexia-it/geofeed-validator/actions/workflows/python-package.yml/badge.svg?branch=master
 
 .. image:: https://coveralls.io/repos/anexia-it/geofeed-validator/badge.png?branch=master 
 	:target: https://coveralls.io/r/anexia-it/geofeed-validator?branch=master
