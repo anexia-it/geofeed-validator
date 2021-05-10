@@ -34,4 +34,4 @@ jobs:
       run: |
         coverage run --source=geofeed_validator setup.py test
         coverage report -m
-        coveralls
+        coveralls --service=github
