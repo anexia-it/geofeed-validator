@@ -137,11 +137,12 @@ class CountryField(Field):
     NAME = 'country'
 
     def _check_errors(self, value):
-        try:
-            if not self.to_python(value):
+        if value:
+            try:
+                if not self.to_python(value):
+                    return True
+            except:
                 return True
-        except:
-            return True
         return False
 
     def to_python(self, value):
@@ -164,11 +165,12 @@ class SubdivisionField(Field):
     NAME = 'subdivision'
 
     def _check_errors(self, value):
-        try:
-            if not self.to_python(value):
+        if value:
+            try:
+                if not self.to_python(value):
+                    return True
+            except:
                 return True
-        except:
-            return True
         return False
 
     def to_python(self, value):
