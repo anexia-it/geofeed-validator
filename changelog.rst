@@ -1,6 +1,11 @@
 Changelog
 *********
 
+0.6.1
+-----
+* Add changelog to packaged version
+* Adjust long description for PyPi
+
 0.6.0
 -----
 * Add support for latest pycountry (https://github.com/anexia-it/geofeed-validator/issues/4, thanks vangesseld)
