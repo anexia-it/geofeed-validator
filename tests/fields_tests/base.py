@@ -198,8 +198,8 @@ class NetworkFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
                          self.field.validate('192.168.0.0/24'))
 
     def test_0005_reserved(self):
-        self.assertEqual(((NetworkField.ERROR_RESERVED, ), tuple(), netaddr.IPNetwork('192.0.0.0/24')),
-                         self.field.validate('192.0.0.0/24'))
+        self.assertEqual(((NetworkField.ERROR_RESERVED, ), tuple(), netaddr.IPNetwork('192.0.2.0/24')),
+                         self.field.validate('192.0.2.0/24'))
 
     def test_0006_valid(self):
         self.assertEqual((tuple(), tuple(), netaddr.IPNetwork('8.8.8.8')),
@@ -213,7 +213,7 @@ class CountryFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
         self.assertEqual(((CountryField.ERROR, ), tuple(), None), self.field.validate('INVALID'))
 
     def test_0002_valid_alpha2(self):
-        self.assertEqual((tuple(), tuple(), pycountry.countries.get(alpha2='AT')), self.field.validate('AT'))
+        self.assertEqual((tuple(), tuple(), pycountry.countries.get(alpha_2='AT')), self.field.validate('AT'))
 
     def test_0004_to_string_valid(self):
         self.assertEqual('AT', self.field.to_string('AT'))

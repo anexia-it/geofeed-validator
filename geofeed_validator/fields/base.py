@@ -137,22 +137,24 @@ class CountryField(Field):
     NAME = 'country'
 
     def _check_errors(self, value):
-        try:
-            self.to_python(value)
-        except:
-            return True
+        if value:
+            try:
+                if not self.to_python(value):
+                    return True
+            except:
+                return True
         return False
 
     def to_python(self, value):
         if value:
-            return pycountry.countries.get(alpha2=value)
+            return pycountry.countries.get(alpha_2=value)
         return None
 
     def to_string(self, value):
         if value:
             try:
                 country = self.to_python(value)
-                return country.alpha2
+                return country.alpha_2
             except:
                 pass
         return ''
@@ -163,10 +165,12 @@ class SubdivisionField(Field):
     NAME = 'subdivision'
 
     def _check_errors(self, value):
-        try:
-            self.to_python(value)
-        except:
-            return True
+        if value:
+            try:
+                if not self.to_python(value):
+                    return True
+            except:
+                return True
         return False
 
     def to_python(self, value):
