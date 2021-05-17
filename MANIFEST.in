@@ -1,3 +1,4 @@
+include changelog.rst
 include COPYING
 include README.rst
 include requirements.txt
