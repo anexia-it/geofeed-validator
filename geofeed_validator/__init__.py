@@ -30,7 +30,7 @@ import io
 from geofeed_validator.utils import is_file_like_object
 from geofeed_validator.validator.base import BaseValidator, Registry
 
-__version__ = '0.5.1'
+__version__ = '0.6.0'
 
 
 class GeoFeedValidator(object):
