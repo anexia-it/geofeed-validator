@@ -31,6 +31,14 @@ import re
 import os
 
 
+def get_long_description():
+    """
+    Get README.rst content for use as long descption
+    """
+    this_directory = os.path.abspath(os.path.dirname(__file__))
+    with open(os.path.join(this_directory, 'README.rst'), encoding='utf-8') as f:
+        return f.read()
+
 def get_version(package):
     """
     Return package version as listed in `__version__` in `init.py`.
@@ -38,6 +46,7 @@ def get_version(package):
     init_py = open(os.path.join(package, '__init__.py')).read()
     return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
 
+long_description = get_long_description()
 version = get_version('geofeed_validator')
 
 setup(
@@ -45,6 +54,8 @@ setup(
     version=version,
     license='AGPLv3+',
     description='Validator library for self-published geo feeds',
+    long_description=long_description,
+    long_description_content_type='text/x-rst',
     author='Stephan Peijnik',
     author_email='speijnik@anexia-it.com',
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
