@@ -32,30 +32,6 @@ from geofeed_validator.validator import Registry, BaseValidator
 
 __all__ = ['GeoFeedValidatorTestCase']
 
-# Monkey-patch unittest.TestCase if needed...
-# This is the case for Python 2.6, for example.
-if not hasattr(unittest.TestCase, 'assertIn'):
-    def assertIn(self, a, b, msg=None):
-        if not a in b:
-            self.fail("%s is not in %b" % (repr(a), repr(b)))
-
-    unittest.TestCase.assertIn = assertIn
-
-if not hasattr(unittest.TestCase, 'assertNotIn'):
-
-    def assertNotIn(self, a, b, msg=None):
-        if a in b:
-            self.fail("%s is in %b" % (repr(a), repr(b)))
-
-    unittest.TestCase.assertNotIn = assertNotIn
-
-if not hasattr(unittest.TestCase, 'assertIsInstance'):
-    def assertIsInstance(self, a, b, msg=None):
-        if not isinstance(a, b):
-            self.fail("%s not instance of %s" % (repr(a), repr(b)))
-
-    unittest.TestCase.assertIsInstance = assertIsInstance
-# End of monkey-patching code for unittest.TestCase
 
 class GeoFeedValidatorTestCase(unittest.TestCase):
     def test_0000_init_invalid_validator(self):
