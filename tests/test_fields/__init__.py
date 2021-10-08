@@ -1,4 +1,4 @@
-# test/validator_tests/__init__.py
+# test/test_fields/__init__.py
 #
 # ANEXIA GeoFeed Validator
 #

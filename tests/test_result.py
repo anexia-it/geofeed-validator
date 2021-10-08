@@ -1,4 +1,4 @@
-# test/result_tests.py
+# test/test_result.py
 #
 # ANEXIA GeoFeed Validator
 #

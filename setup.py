@@ -58,8 +58,7 @@ setup(
     long_description_content_type='text/x-rst',
     author='Stephan Peijnik',
     author_email='speijnik@anexia-it.com',
-    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
-    test_suite='tests',
+    packages=find_packages(exclude=["tests"]),
     install_requires=open('requirements.txt', 'r').readlines(),
     scripts = ['bin/geofeed-validator.py'],
     classifiers=[
@@ -71,10 +70,11 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
     url='https://github.com/anexia-it/geofeed-validator'

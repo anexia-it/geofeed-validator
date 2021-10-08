@@ -1,4 +1,4 @@
-# test/fields_test/draft02_extension.py
+# test/test_fields/test_draft02_extension.py
 #
 # ANEXIA GeoFeed Validator
 #
@@ -24,7 +24,7 @@
 #
 
 import unittest
-from .base import FieldTestCaseMixin
+from .test_base import FieldTestCaseMixin
 from geofeed_validator.fields.draft02_extension import AllocationSizeField
 
 __all__ = ['AllocationSizeFieldTestCase']

@@ -1,6 +1,12 @@
 Changelog
 *********
 
+next
+----
+* Announce support for python3.9 and python3.10
+* Drop support for python3.5
+* Use pytest for testing
+
 0.6.1
 -----
 * Add changelog to packaged version
