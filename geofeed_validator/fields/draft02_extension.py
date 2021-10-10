@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # geofeed_validator/fields/base.py
 #
 # ANEXIA GeoFeed Validator
@@ -27,8 +28,8 @@ from geofeed_validator.fields import Field
 
 
 class AllocationSizeField(Field):
-    ERROR = 'Must be valid CIDR notation'
-    NAME = 'allocation_size'
+    ERROR = "Must be valid CIDR notation"
+    NAME = "allocation_size"
 
     def _check_errors(self, value):
         try:
@@ -38,9 +39,9 @@ class AllocationSizeField(Field):
         return False
 
     def to_python(self, value):
-        if value and not value.startswith('/'):
-            raise ValueError('Value does not start with a slash')
+        if value and not value.startswith("/"):
+            raise ValueError("Value does not start with a slash")
         elif value:
             return int(value[1:])
         else:
-            return ''
+            return ""

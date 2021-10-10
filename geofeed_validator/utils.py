@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # geofeed_validator/util.py
 #
 # ANEXIA GeoFeed Validator
@@ -25,12 +26,12 @@
 
 
 def is_file_like_object(obj):
-    '''
+    """
     Helper function that checks if a given object is a file-like object.
 
     :param obj: Object to check
     :type obj: object
     :returns: True if obj is file-like, False otherwise
     :rtype: bool
-    '''
-    return hasattr(obj, 'read') and hasattr(obj, 'close')
+    """
+    return hasattr(obj, "read") and hasattr(obj, "close")

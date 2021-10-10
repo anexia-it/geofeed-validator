@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # geofeed_validator/fields/__init__.py
 #
 # ANEXIA GeoFeed Validator
@@ -23,4 +24,11 @@
 # Stephan Peijnik <speijnik@anexia-it.com>
 #
 
-from .base import Field, NetworkField, CountryField, SubdivisionField, CityField, ZipCodeField
+from .base import (
+    CityField,
+    CountryField,
+    Field,
+    NetworkField,
+    SubdivisionField,
+    ZipCodeField,
+)

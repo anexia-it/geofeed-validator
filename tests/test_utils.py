@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # test/test_utils.py
 #
 # ANEXIA GeoFeed Validator
@@ -22,17 +23,17 @@
 #
 # Stephan Peijnik <speijnik@anexia-it.com>
 
-import unittest
 import io
+import unittest
 
 from geofeed_validator import is_file_like_object
 
+__all__ = ["IsFileLikeObjectTestCase"]
 
-__all__ = ['IsFileLikeObjectTestCase']
 
 class IsFileLikeObjectTestCase(unittest.TestCase):
     def test_0000_not_file_like(self):
-        self.assertEqual(False, is_file_like_object('test'))
+        self.assertEqual(False, is_file_like_object("test"))
 
     def test_0001_is_file_like(self):
         self.assertEqual(True, is_file_like_object(io.StringIO()))

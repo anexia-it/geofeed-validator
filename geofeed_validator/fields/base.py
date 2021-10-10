@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # geofeed_validator/fields/base.py
 #
 # ANEXIA GeoFeed Validator
@@ -28,18 +29,23 @@ import pycountry
 
 
 class Field(object):
-    '''
+    """
     Base class for representing a field
-    '''
+    """
+
     ERROR = None
     WARNING = None
     NAME = None
 
     def __init__(self):
-        if not isinstance(getattr(self, 'ERROR', None), str):
-            raise ValueError('ERROR class-attribute of %r not set or invalid.' % self.__class__)
-        if not isinstance(getattr(self, 'NAME', None), str):
-            raise ValueError('NAME class-attribute of %r not set or invalid.' % self.__class__)
+        if not isinstance(getattr(self, "ERROR", None), str):
+            raise ValueError(
+                "ERROR class-attribute of %r not set or invalid." % self.__class__
+            )
+        if not isinstance(getattr(self, "NAME", None), str):
+            raise ValueError(
+                "NAME class-attribute of %r not set or invalid." % self.__class__
+            )
         self._name = self.NAME
 
     @property
@@ -54,7 +60,9 @@ class Field(object):
 
     def validate(self, value):
         errors = self._normalize_check_result(self._check_errors(value), self.ERROR)
-        warnings = self._normalize_check_result(self._check_warnings(value), self.WARNING)
+        warnings = self._normalize_check_result(
+            self._check_warnings(value), self.WARNING
+        )
 
         cleaned_value = None
         try:
@@ -67,7 +75,7 @@ class Field(object):
     @staticmethod
     def _normalize_check_result(check_result, default):
         if check_result is None:
-            raise ValueError('None is not an allowed value.')
+            raise ValueError("None is not an allowed value.")
 
         if check_result is False:
             return tuple()
@@ -79,11 +87,11 @@ class Field(object):
             check_result = (check_result,)
 
         if not type(check_result) in (list, tuple):
-            raise ValueError('Error lists must be of type list or tuple.')
+            raise ValueError("Error lists must be of type list or tuple.")
 
         for s in check_result:
             if not isinstance(s, str):
-                raise ValueError('At least one non-string error was returned.')
+                raise ValueError("At least one non-string error was returned.")
 
         return check_result
 
@@ -97,18 +105,17 @@ class Field(object):
             pass
         return None
 
-
     def __repr__(self):
-        return '<Field %s>' % (self.name)
+        return "<Field %s>" % (self.name)
 
 
 class NetworkField(Field):
-    ERROR = 'Not a valid IP network'
-    ERROR_LOOPBACK = 'Loopback network not allowed'
-    ERROR_PRIVATE = 'Private network not allowed'
-    ERROR_RESERVED = 'Reserved network not allowed'
-    ERROR_MULTICAST = 'Multicast network not allowed'
-    NAME = 'network'
+    ERROR = "Not a valid IP network"
+    ERROR_LOOPBACK = "Loopback network not allowed"
+    ERROR_PRIVATE = "Private network not allowed"
+    ERROR_RESERVED = "Reserved network not allowed"
+    ERROR_MULTICAST = "Multicast network not allowed"
+    NAME = "network"
 
     def _check_errors(self, value):
         net = None
@@ -133,8 +140,8 @@ class NetworkField(Field):
 
 
 class CountryField(Field):
-    ERROR = 'Not a valid ISO3316-2 country code'
-    NAME = 'country'
+    ERROR = "Not a valid ISO3316-2 country code"
+    NAME = "country"
 
     def _check_errors(self, value):
         if value:
@@ -154,12 +161,12 @@ class CountryField(Field):
                 return country.alpha_2
             except:
                 pass
-        return ''
+        return ""
 
 
 class SubdivisionField(Field):
-    ERROR = 'Not a valid ISO3316-2 subdivision code'
-    NAME = 'subdivision'
+    ERROR = "Not a valid ISO3316-2 subdivision code"
+    NAME = "subdivision"
 
     def _check_errors(self, value):
         if value:
@@ -179,12 +186,12 @@ class SubdivisionField(Field):
                 return subdivision.code
             except:
                 pass
-        return ''
+        return ""
 
 
 class CityField(Field):
-    ERROR = 'unvalidated'
-    NAME = 'city'
+    ERROR = "unvalidated"
+    NAME = "city"
 
     def _check_errors(self, value):
         # TODO: city is not validated right now
@@ -195,8 +202,8 @@ class CityField(Field):
 
 
 class ZipCodeField(Field):
-    ERROR = 'unvalidated'
-    NAME = 'zipcode'
+    ERROR = "unvalidated"
+    NAME = "zipcode"
 
     def _check_errors(self, value):
         # TODO: zip code is not validated right now

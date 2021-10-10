@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # test/test_fields/test_draft02_extension.py
 #
 # ANEXIA GeoFeed Validator
@@ -24,19 +25,24 @@
 #
 
 import unittest
-from .test_base import FieldTestCaseMixin
+
 from geofeed_validator.fields.draft02_extension import AllocationSizeField
 
-__all__ = ['AllocationSizeFieldTestCase']
+from .test_base import FieldTestCaseMixin
+
+__all__ = ["AllocationSizeFieldTestCase"]
+
 
 class AllocationSizeFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
     FIELD_CLASS = AllocationSizeField
 
     def test_0000_invalid_cidr_notation(self):
-        self.assertEqual(((AllocationSizeField.ERROR,), tuple(), None), self.field.validate('32'))
+        self.assertEqual(
+            ((AllocationSizeField.ERROR,), tuple(), None), self.field.validate("32")
+        )
 
     def test_0001_valid_cidr_notation(self):
-        self.assertEqual((tuple(), tuple(), 32), self.field.validate('/32'))
+        self.assertEqual((tuple(), tuple(), 32), self.field.validate("/32"))
 
     def test_0002_empty_string(self):
-        self.assertEqual((tuple(), tuple(), ''), self.field.validate(''))
+        self.assertEqual((tuple(), tuple(), ""), self.field.validate(""))
