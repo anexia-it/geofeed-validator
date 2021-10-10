@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "geofeed-validator"
+version = "0.6.1"
+description = "Validator library for self-published geo feeds"
+license = "AGPLv3+"
+authors = ["Stephan Peijnik-Steinwender <SPeijnik@anexia-it.com>"]
+readme = "README.rst"
+homepage = "https://github.com/anexia-it/geofeed-validator"
+repository = "https://github.com/anexia-it/geofeed-validator"
+classifiers=[
+    'Development Status :: 5 - Production/Stable',
+    'Environment :: Console',
+    'Intended Audience :: Developers',
+    'Intended Audience :: System Administrators',
+    'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Topic :: Software Development :: Libraries :: Python Modules'
+]
+exclude = ["tests"]
+include = [
+    "changelog.rst",
+    "COPYING",
+    "README.rst",
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+pycountry = ">=20.7.3"
+netaddr = ">=0.8.0"
+
+[tool.poetry.dev-dependencies]
+coverage = ">=5.5.0"
+pytest = ">=6.2.5"
+coveralls = "^3.2.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

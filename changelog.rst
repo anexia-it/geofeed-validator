@@ -3,8 +3,9 @@ Changelog
 
 next
 ----
-* Announce support for python3.9 and python3.10
+* Announce support for python3.9
 * Drop support for python3.5
+* Switch to poetry for dependency management and package building
 * Use pytest for testing
 
 0.6.1
