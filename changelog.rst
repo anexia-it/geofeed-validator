@@ -4,7 +4,8 @@ Changelog
 next
 ----
 * Announce support for python3.9
-* Drop support for python3.5
+* Drop support for python < 3.6.2
+* Introduce pre-commit, isort, black, lint with them and add github actions enforcing those styles
 * Switch to poetry for dependency management and package building
 * Use pytest for testing
 

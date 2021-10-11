@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # geofeed_validator/validator/__init__.py
 #
 # ANEXIA GeoFeed Validator
@@ -23,5 +24,5 @@
 # Stephan Peijnik <speijnik@anexia-it.com>
 #
 
-from .base import Registry, BaseValidator, BaseCSVValidator
+from .base import BaseCSVValidator, BaseValidator, Registry
 from .draft02 import CSVValidatorDraft02, CSVValidatorDraft02WithAllocationSize

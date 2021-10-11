@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # geofeed_validator/validation.py
 #
 # ANEXIA GeoFeed Validator
@@ -39,28 +40,29 @@ class FieldResult(object):
 
     def __getstate__(self):
         state = self.__dict__.copy()
-        del state['value']
+        del state["value"]
         return state
 
     def __setstate__(self, state):
-        field = state['field']
+        field = state["field"]
         value = None
-        if state.get('value_string', None):
+        if state.get("value_string", None):
             try:
-                value = field.to_python(state['value_string'])
+                value = field.to_python(state["value_string"])
             except:
                 pass
 
-        state['value'] = value
+        state["value"] = value
         self.__dict__.update(state)
 
 
 class RecordValidationResult(object):
-    '''
+    """
     Validation result for a single record
-    '''
+    """
+
     def __init__(self, record_no, fields, record, raw_data):
-        '''
+        """
         :param record_no: Record number
         :type record_no: int
         :param fields: List of fields as defined by the validator
@@ -69,7 +71,7 @@ class RecordValidationResult(object):
         :type record: dict of (Field, str)
         :param raw_data: Raw record data, as read by parser
         :type raw_data: basestring
-        '''
+        """
         self._record_no = record_no
         self._fields = fields
         self._record = record
@@ -77,7 +79,7 @@ class RecordValidationResult(object):
         self._was_ignored = False
 
         #: :type: bool
-        self._has_extra = '__extra__' in record
+        self._has_extra = "__extra__" in record
         #: :type: list of str
         self._extra = list()
         self._extra_offset = 0
@@ -85,8 +87,8 @@ class RecordValidationResult(object):
         self._field_results = list()
 
         if self._has_extra:
-            self._extra = record['__extra__']
-            del record['__extra__']
+            self._extra = record["__extra__"]
+            del record["__extra__"]
             self._extra_offset = len(record)
 
     @property
@@ -100,48 +102,64 @@ class RecordValidationResult(object):
 
         for field in self._fields:
             if not field in self._record:
-                self._field_results.append(FieldResult(field, None, ['Field is missing.'], [], None, ''))
+                self._field_results.append(
+                    FieldResult(field, None, ["Field is missing."], [], None, "")
+                )
             else:
                 # Validate the field data...
                 errors, warnings, cleaned_value = field.validate(self._record[field])
-                self._field_results.append(FieldResult(field, cleaned_value, list(errors), list(warnings),
-                                                       self._record[field], field.to_string(self._record[field])))
+                self._field_results.append(
+                    FieldResult(
+                        field,
+                        cleaned_value,
+                        list(errors),
+                        list(warnings),
+                        self._record[field],
+                        field.to_string(self._record[field]),
+                    )
+                )
 
     def add_field_errors(self, field, errors):
         if isinstance(errors, tuple):
             errors = list(errors)
         elif not isinstance(errors, list):
-            errors = [errors,]
+            errors = [
+                errors,
+            ]
 
         field_result = self.get_field_result(field)
         if field_result:
             field_result.errors += errors
             return
 
-        self._field_results.append(FieldResult(field, None, errors, [], None, ''))
+        self._field_results.append(FieldResult(field, None, errors, [], None, ""))
 
     def add_field_warnings(self, field, warnings):
         if isinstance(warnings, tuple):
             warnings = list(warnings)
         elif not isinstance(warnings, list):
-            warnings = [warnings,]
+            warnings = [
+                warnings,
+            ]
 
         field_result = self.get_field_result(field)
         if field_result:
             field_result.warnings += warnings
             return
 
-        self._field_results.append(FieldResult(field, None, [], warnings, None, ''))
+        self._field_results.append(FieldResult(field, None, [], warnings, None, ""))
 
     def get_field_result(self, field_name_or_class):
-        '''
+        """
         :param field_name_or_class: Field name or class
         :type field_name_or_class: str or Field
         :returns: FieldResult instance if found, None otherwise.
         :rtype: FieldResult
-        '''
+        """
         field_name = field_name_or_class
-        if inspect.isclass(field_name_or_class) and issubclass(field_name_or_class, Field):
+        if inspect.isclass(field_name_or_class) and issubclass(
+            field_name_or_class, Field
+        ):
             field_name = field_name_or_class.NAME
         elif isinstance(field_name_or_class, Field):
             field_name = field_name_or_class.name
@@ -195,9 +213,9 @@ class RecordValidationResult(object):
 
 
 class ValidationResult(object):
-    '''
+    """
     Class representing a validation result.
-    '''
+    """
 
     def __init__(self, fields, store_raw_records=False):
         #: :type: list of RecordValidationResult
@@ -206,15 +224,17 @@ class ValidationResult(object):
         self._fields = fields
 
     def add_record(self, record, raw_data):
-        '''
+        """
         :param record: Record data as dict
         :type record: dict of (Field, value)
-        '''
+        """
         if not self._store_raw_records:
             raw_data = None
 
         record_no = len(self._records)
-        record_validation = RecordValidationResult(record_no, self._fields, record, raw_data)
+        record_validation = RecordValidationResult(
+            record_no, self._fields, record, raw_data
+        )
         record_validation.validate()
         self._records.append(record_validation)
 

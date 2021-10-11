@@ -1,0 +1,25 @@
+default_language_version:
+  python: python3
+exclude: "^$"
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: debug-statements
+      - id: detect-private-key
+      - id: fix-encoding-pragma
+      - id: mixed-line-ending
+
+  - repo: https://github.com/psf/black
+    rev: 20.8b1
+    hooks:
+      - id: black
+
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.9.3
+    hooks:
+      - id: isort
+        args: ["--profile", "black"]

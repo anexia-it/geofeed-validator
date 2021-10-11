@@ -2,4 +2,3 @@
 branch = true
 source = geofeed_validator
 omit = tests/* bin/*
-

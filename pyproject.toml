@@ -30,7 +30,7 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = ">=3.6.2,<4"
 pycountry = ">=20.7.3"
 netaddr = ">=0.8.0"
 
@@ -38,6 +38,9 @@ netaddr = ">=0.8.0"
 coverage = ">=5.5.0"
 pytest = ">=6.2.5"
 coveralls = "^3.2.0"
+pre-commit = "^2.15.0"
+black = "^21.9b0"
+isort = "^5.9.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
