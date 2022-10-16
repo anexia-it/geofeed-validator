@@ -1,28 +1,7 @@
-# -*- coding: utf-8 -*-
-# test/test_fields/test_base.py
-#
-# ANEXIA GeoFeed Validator
-#
 # Copyright (C) 2014 ANEXIA Internetdienstleistungs GmbH
+# SPDX-FileCopyrightText: 2022 2014 ANEXIA Internetdienstleistungs GmbH Authors: Stephan Peijnik <speijnik@anexia-it.com>
 #
-#
-#  This program is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU Affero General Public License as
-#  published by the Free Software Foundation, either version 3 of the
-#  License, or (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU Affero General Public License for more details.
-#
-#  You should have received a copy of the GNU Affero General Public License
-#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-# Authors:
-#
-# Stephan Peijnik <speijnik@anexia-it.com>
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import unittest
 
@@ -272,6 +251,16 @@ class CountryFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
     def test_0007_to_python_empty(self):
         self.assertEqual(None, self.field.to_python(None))
 
+    def test_0008_caseinsensitive_alpha2(self):
+        self.assertEqual(
+            (tuple(), tuple(), pycountry.countries.get(alpha_2="aT")),
+            self.field.validate("AT"),
+        )
+        self.assertEqual(
+            (tuple(), tuple(), pycountry.countries.get(alpha_2="at")),
+            self.field.validate("AT"),
+        )
+
 
 class SubdivisionFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
     FIELD_CLASS = SubdivisionField
@@ -299,6 +288,15 @@ class SubdivisionFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
     def test_0007_to_python_empty(self):
         self.assertEqual(None, self.field.to_python(None))
 
+    def test_0008_caseinsensitive_alpha2(self):
+        self.assertEqual(
+            (tuple(), tuple(), pycountry.subdivisions.get(code="at-1")),
+            self.field.validate("AT-1"),
+        )
+        self.assertEqual(
+            (tuple(), tuple(), pycountry.subdivisions.get(code="aT-1")),
+            self.field.validate("AT-1"),
+        )
 
 class UnimplementedFieldTestCaseMixin(FieldTestCaseMixin):
     def test_0001_to_python_verbatim(self):
