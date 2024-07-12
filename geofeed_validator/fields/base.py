@@ -115,6 +115,7 @@ class NetworkField(Field):
     ERROR_PRIVATE = "Private network not allowed"
     ERROR_RESERVED = "Reserved network not allowed"
     ERROR_MULTICAST = "Multicast network not allowed"
+    ERROR_LINKLOCAL = "Link-local network not allowed"
     NAME = "network"
 
     def _check_errors(self, value):
@@ -124,10 +125,16 @@ class NetworkField(Field):
         except:
             return True
 
+        ip = netaddr.IPAddress(net.network)
+
         if net.is_loopback():
             return self.ERROR_LOOPBACK
-        elif net.is_private():
+        elif ip.is_ipv4_private_use():
             return self.ERROR_PRIVATE
+        elif ip.is_ipv6_unique_local():
+            return self.ERROR_PRIVATE
+        elif ip.is_link_local():
+            return self.ERROR_LINKLOCAL
         elif net.is_reserved():
             return self.ERROR_RESERVED
         elif net.is_multicast():
