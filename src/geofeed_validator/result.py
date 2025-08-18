@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # geofeed_validator/validation.py
 #
 # ANEXIA GeoFeed Validator
@@ -29,7 +28,7 @@ import inspect
 from geofeed_validator.fields import Field
 
 
-class FieldResult(object):
+class FieldResult:
     def __init__(self, field, value, errors, warnings, raw, value_string):
         self.field = field
         self.value = value
@@ -56,7 +55,7 @@ class FieldResult(object):
         self.__dict__.update(state)
 
 
-class RecordValidationResult(object):
+class RecordValidationResult:
     """
     Validation result for a single record
     """
@@ -212,7 +211,7 @@ class RecordValidationResult(object):
         return self._was_ignored
 
 
-class ValidationResult(object):
+class ValidationResult:
     """
     Class representing a validation result.
     """

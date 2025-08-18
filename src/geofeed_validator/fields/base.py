@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # geofeed_validator/fields/base.py
 #
 # ANEXIA GeoFeed Validator
@@ -28,7 +27,7 @@ import netaddr
 import pycountry
 
 
-class Field(object):
+class Field:
     """
     Base class for representing a field
     """
@@ -40,11 +39,11 @@ class Field(object):
     def __init__(self):
         if not isinstance(getattr(self, "ERROR", None), str):
             raise ValueError(
-                "ERROR class-attribute of %r not set or invalid." % self.__class__
+                f"ERROR class-attribute of {self.__class__!r} not set or invalid."
             )
         if not isinstance(getattr(self, "NAME", None), str):
             raise ValueError(
-                "NAME class-attribute of %r not set or invalid." % self.__class__
+                f"NAME class-attribute of {self.__class__!r} not set or invalid."
             )
         self._name = self.NAME
 
@@ -106,7 +105,7 @@ class Field(object):
         return None
 
     def __repr__(self):
-        return "<Field %s>" % (self.name)
+        return f"<Field {self.name}>"
 
 
 class NetworkField(Field):

@@ -45,3 +45,11 @@ text = "AGPLv3+"
 [project.urls]
 homepage = "https://github.com/anexia-it/geofeed-validator"
 repository = "https://github.com/anexia-it/geofeed-validator"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+#extend-ignore = ["C901"]
+#extend-select = ["B", "C", "E", "F", "I", "N", "SIM", "UP", "W"]
+extend-select = ["UP"]

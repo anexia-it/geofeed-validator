@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # bin/geofeed_validator.py
 #
@@ -57,7 +56,7 @@ def validate(fp, verbose=False, validator_name=None, allow_warnings=False):
     try:
         validator_class = Registry.find(validator_name)
     except KeyError:
-        sys.stderr.write("Validator %s not found." % validator_name)
+        sys.stderr.write(f"Validator {validator_name} not found.")
         return 4
 
     val = GeoFeedValidator(fp, validator=validator_class, store_raw_records=True)
@@ -70,7 +69,7 @@ def validate(fp, verbose=False, validator_name=None, allow_warnings=False):
     for record in result.records:
         line_status = "OK"
         if record.has_errors or record.has_warnings:
-            line_status = "%s%s" % (
+            line_status = "{}{}".format(
                 "E" if record.has_errors else " ",
                 "W" if record.has_warnings else " ",
             )
@@ -165,9 +164,9 @@ def main(argv=sys.argv):
     fp = None
     if os.path.exists(args.source):
         try:
-            fp = open(args.source, "r")
-        except IOError as e:
-            sys.stderr.write("*** ERROR: Could not read %s: %s\n" % (args.source, e))
+            fp = open(args.source)
+        except OSError as e:
+            sys.stderr.write(f"*** ERROR: Could not read {args.source}: {e}\n")
             return 2
 
     else:
@@ -178,7 +177,7 @@ def main(argv=sys.argv):
         except Exception as e:
             write_console_line("FAILED.")
             sys.stderr.write(
-                "*** ERROR: Could not open URL %s: %s\n" % (args.source, e)
+                f"*** ERROR: Could not open URL {args.source}: {e}\n"
             )
             return 2
 
@@ -202,12 +201,12 @@ def main(argv=sys.argv):
         sys.stderr.write(
             "*** Please report this bug, including the traceback below to speijnik(at)anexia-it.com\n"
         )
-        sys.stderr.write("*** TRACEBACK: %s" % traceback.format_exc())
+        sys.stderr.write(f"*** TRACEBACK: {traceback.format_exc()}")
         return 255
 
 
 def version_header():
-    write_console_line("*** ANEXIA GeoFeed Validator v%s" % __version__)
+    write_console_line(f"*** ANEXIA GeoFeed Validator v{__version__}")
 
 
 if __name__ == "__main__":

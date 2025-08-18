@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # geofeed_validator/util.py
 #
 # ANEXIA GeoFeed Validator

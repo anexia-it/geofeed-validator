@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # test/test_fields/test_draft02_extension.py
 #
 # ANEXIA GeoFeed Validator

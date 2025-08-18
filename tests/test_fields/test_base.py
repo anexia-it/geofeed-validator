@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # test/test_fields/test_base.py
 #
 # ANEXIA GeoFeed Validator
@@ -181,7 +180,7 @@ class FieldTestCase(unittest.TestCase):
         self.assertEqual("test_string", test_field.to_string("test_string"))
 
 
-class FieldTestCaseMixin(object):
+class FieldTestCaseMixin:
     FIELD_CLASS = None
     field = None
 

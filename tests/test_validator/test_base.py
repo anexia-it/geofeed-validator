@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # test/test_validator/test_base.py
 #
 # ANEXIA GeoFeed Validator
@@ -181,7 +180,7 @@ class BaseValidatorTestCase(unittest.TestCase):
 
 class RegistryTestCase(unittest.TestCase):
     def test_0000_register_invalid_class(self):
-        class Test(object):
+        class Test:
             pass
 
         self.assertRaises(ValueError, Registry.register, Test)

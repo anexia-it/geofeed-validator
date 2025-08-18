@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # geofeed_validator/validator/base.py
 #
 # ANEXIA GeoFeed Validator
@@ -39,7 +38,7 @@ from geofeed_validator.result import ValidationResult
 from geofeed_validator.utils import is_file_like_object
 
 
-class BaseValidator(object):
+class BaseValidator:
     """
     Base validator functionality.
     """
@@ -51,14 +50,12 @@ class BaseValidator(object):
     def __init__(self, feed, store_raw_records=False):
         if not isinstance(getattr(self, "NAME", None), str):
             raise ValueError(
-                "NAME class-attribute of %r not set or invalid (type=%r)."
-                % (self.__class__, type(getattr(self, "NAME", None)))
+                "NAME class-attribute of {!r} not set or invalid (type={!r}).".format(self.__class__, type(getattr(self, "NAME", None)))
             )
 
         if type(getattr(self, "FIELDS", None)) not in (list, tuple):
             raise ValueError(
-                "FIELDS class-attribute of %r not set or invalid (type=%r)."
-                % (self.__class__, type(getattr(self, "FIELDS", None)))
+                "FIELDS class-attribute of {!r} not set or invalid (type={!r}).".format(self.__class__, type(getattr(self, "FIELDS", None)))
             )
 
         self._fields = list()
@@ -71,8 +68,7 @@ class BaseValidator(object):
                 field_or_class = field_or_class()
             elif not isinstance(field_or_class, Field):
                 raise ValueError(
-                    "FIELDS class %r not subclass/instance of %r."
-                    % (field_or_class, Field)
+                    f"FIELDS class {field_or_class!r} not subclass/instance of {Field!r}."
                 )
 
             self._fields.append(field_or_class)
@@ -113,12 +109,11 @@ class BaseValidator(object):
                 for other_network_record in networks[network_str]:
                     other_network_record.add_field_errors(
                         NetworkField,
-                        "Duplicate of %s #%d" % (self.RECORD_NAME, record.record_no),
+                        f"Duplicate of {self.RECORD_NAME} #{record.record_no}",
                     )
                     record.add_field_errors(
                         NetworkField,
-                        "Duplicate of %s #%d"
-                        % (self.RECORD_NAME, other_network_record.record_no),
+                        f"Duplicate of {self.RECORD_NAME} #{other_network_record.record_no}",
                     )
                 networks[network_str].append(record)
             else:
@@ -200,7 +195,7 @@ class BaseCSVValidator(BaseValidator):
             yield record, line
 
 
-class Registry(object):
+class Registry:
     """
     Validator registry
     """
@@ -212,17 +207,17 @@ class Registry(object):
         if not inspect.isclass(validator_class) or not issubclass(
             validator_class, BaseValidator
         ):
-            raise ValueError("%r is not a subclass of BaseValidator." % validator_class)
+            raise ValueError(f"{validator_class!r} is not a subclass of BaseValidator.")
 
         if not isinstance(getattr(validator_class, "NAME", None), str):
-            raise ValueError("NAME class-attribute missing from %r." % validator_class)
+            raise ValueError(f"NAME class-attribute missing from {validator_class!r}.")
 
         cls.VALIDATORS[getattr(validator_class, "NAME")] = validator_class
 
     @classmethod
     def find(cls, name):
         if name not in cls.VALIDATORS:
-            raise KeyError("Validator with name %r not registered." % name)
+            raise KeyError(f"Validator with name {name!r} not registered.")
         return cls.VALIDATORS[name]
 
     @classmethod

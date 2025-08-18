@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # test/test_geofeed_validator.py
 #
 # ANEXIA GeoFeed Validator
@@ -36,7 +35,7 @@ __all__ = ["GeoFeedValidatorTestCase"]
 
 class GeoFeedValidatorTestCase(unittest.TestCase):
     def test_0000_init_invalid_validator(self):
-        class TestClass(object):
+        class TestClass:
             pass
 
         self.assertRaises(ValueError, GeoFeedValidator, "", validator=1)
@@ -72,7 +71,7 @@ class GeoFeedValidatorTestCase(unittest.TestCase):
         GeoFeedValidator("")
 
     def test_0006_init_invalid(self):
-        class TestClass(object):
+        class TestClass:
             pass
 
         self.assertRaises(ValueError, GeoFeedValidator, TestClass())

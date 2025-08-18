@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # geofeed_validator/__init__.py
 #
 # ANEXIA GeoFeed Validator
@@ -34,7 +33,7 @@ from geofeed_validator.validator.base import BaseValidator, Registry
 __version__ = "0.6.1"
 
 
-class GeoFeedValidator(object):
+class GeoFeedValidator:
     """
     Validator class
     """
@@ -65,7 +64,7 @@ class GeoFeedValidator(object):
         elif isinstance(self._validator_name, str):
             self._validator = Registry.find(self._validator_name)
         else:
-            raise ValueError("Validator %r is invalid." % validator)
+            raise ValueError(f"Validator {validator!r} is invalid.")
 
         if isinstance(feed, str):
             self._feed = io.StringIO(feed)
