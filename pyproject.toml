@@ -12,11 +12,14 @@ dev = [
 
 [project]
 classifiers = ["Development Status :: 5 - Production/Stable", "Environment :: Console", "Intended Audience :: Developers", "Intended Audience :: System Administrators", "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)", "Operating System :: OS Independent", "Programming Language :: Python", "Programming Language :: Python :: 3", "Programming Language :: Python :: 3.6", "Programming Language :: Python :: 3.7", "Programming Language :: Python :: 3.8", "Programming Language :: Python :: 3.9", "Topic :: Software Development :: Libraries :: Python Modules"]
-dependencies = ["pycountry>=20.7.3", "netaddr>=0.8.0"]
+dependencies = [
+    "pycountry>=20.7.3",
+    "netaddr>=0.8,<1",
+]
 description = "Validator library for self-published geo feeds"
 name = "geofeed-validator"
 readme = "README.rst"
-requires-python = "<4,>=3.6.2"
+requires-python = "<4,>=3.10"
 version = "0.6.1"
 [[project.authors]]
 email = "SPeijnik@anexia-it.com"
