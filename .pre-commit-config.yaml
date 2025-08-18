@@ -10,7 +10,6 @@ repos:
       - id: trailing-whitespace
       - id: debug-statements
       - id: detect-private-key
-      - id: fix-encoding-pragma
       - id: mixed-line-ending
 
   - repo: https://github.com/astral-sh/ruff-pre-commit

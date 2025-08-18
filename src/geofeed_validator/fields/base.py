@@ -67,7 +67,7 @@ class Field(object):
         cleaned_value = None
         try:
             cleaned_value = self.to_python(value)
-        except:
+        except Exception:
             pass
 
         return errors, warnings, cleaned_value
@@ -86,7 +86,7 @@ class Field(object):
         if isinstance(check_result, str):
             check_result = (check_result,)
 
-        if not type(check_result) in (list, tuple):
+        if type(check_result) not in (list, tuple):
             raise ValueError("Error lists must be of type list or tuple.")
 
         for s in check_result:
@@ -121,7 +121,7 @@ class NetworkField(Field):
         net = None
         try:
             net = self.to_python(value)
-        except:
+        except Exception:
             return True
 
         if net.is_loopback():
@@ -159,7 +159,7 @@ class CountryField(Field):
             try:
                 country = self.to_python(value)
                 return country.alpha_2
-            except:
+            except Exception:
                 pass
         return ""
 
@@ -184,7 +184,7 @@ class SubdivisionField(Field):
             try:
                 subdivision = self.to_python(value)
                 return subdivision.code
-            except:
+            except Exception:
                 pass
         return ""
 
