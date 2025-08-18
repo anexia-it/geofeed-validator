@@ -50,12 +50,16 @@ class BaseValidator:
     def __init__(self, feed, store_raw_records=False):
         if not isinstance(getattr(self, "NAME", None), str):
             raise ValueError(
-                "NAME class-attribute of {!r} not set or invalid (type={!r}).".format(self.__class__, type(getattr(self, "NAME", None)))
+                "NAME class-attribute of {!r} not set or invalid (type={!r}).".format(
+                    self.__class__, type(getattr(self, "NAME", None))
+                )
             )
 
         if type(getattr(self, "FIELDS", None)) not in (list, tuple):
             raise ValueError(
-                "FIELDS class-attribute of {!r} not set or invalid (type={!r}).".format(self.__class__, type(getattr(self, "FIELDS", None)))
+                "FIELDS class-attribute of {!r} not set or invalid (type={!r}).".format(
+                    self.__class__, type(getattr(self, "FIELDS", None))
+                )
             )
 
         self._fields = list()
@@ -67,9 +71,7 @@ class BaseValidator:
             ):
                 field_or_class = field_or_class()
             elif not isinstance(field_or_class, Field):
-                raise ValueError(
-                    f"FIELDS class {field_or_class!r} not subclass/instance of {Field!r}."
-                )
+                raise ValueError(f"FIELDS class {field_or_class!r} not subclass/instance of {Field!r}.")
 
             self._fields.append(field_or_class)
 
@@ -80,9 +82,7 @@ class BaseValidator:
         elif is_file_like_object(feed):
             self._feed = feed
         else:
-            raise ValueError(
-                "feed argument must either be a string or a file-like object."
-            )
+            raise ValueError("feed argument must either be a string or a file-like object.")
 
     def get_records(self):
         raise NotImplementedError
@@ -129,24 +129,16 @@ class BaseValidator:
         zipcode = record.get_field_value(ZipCodeField)
 
         if country and subdivision and subdivision.country != country:
-            record.add_field_errors(
-                SubdivisionField, "Subdivision not a subdivison of given country."
-            )
+            record.add_field_errors(SubdivisionField, "Subdivision not a subdivison of given country.")
 
         elif subdivision and not country:
-            record.add_field_errors(
-                SubdivisionField, "Subdivision specified, but country missing/invalid."
-            )
+            record.add_field_errors(SubdivisionField, "Subdivision specified, but country missing/invalid.")
 
         if city and not country:
-            record.add_field_errors(
-                CityField, "City specified, but country missing/invalid."
-            )
+            record.add_field_errors(CityField, "City specified, but country missing/invalid.")
 
         if zipcode and not country:
-            record.add_field_errors(
-                ZipCodeField, "Zipcode specified, but country missing/invalid."
-            )
+            record.add_field_errors(ZipCodeField, "Zipcode specified, but country missing/invalid.")
 
     def _validate_common_extra(self, record):
         pass
@@ -204,9 +196,7 @@ class Registry:
 
     @classmethod
     def register(cls, validator_class):
-        if not inspect.isclass(validator_class) or not issubclass(
-            validator_class, BaseValidator
-        ):
+        if not inspect.isclass(validator_class) or not issubclass(validator_class, BaseValidator):
             raise ValueError(f"{validator_class!r} is not a subclass of BaseValidator.")
 
         if not isinstance(getattr(validator_class, "NAME", None), str):

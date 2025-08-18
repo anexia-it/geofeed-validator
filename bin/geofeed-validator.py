@@ -122,9 +122,7 @@ def main(argv=sys.argv):
     global QUIET
 
     parser = argparse.ArgumentParser(prog=argv[0])
-    parser.add_argument(
-        "-v", "--verbose", help="Verbose output", action="store_true", default=False
-    )
+    parser.add_argument("-v", "--verbose", help="Verbose output", action="store_true", default=False)
     parser.add_argument(
         "-V",
         "--version",
@@ -139,9 +137,7 @@ def main(argv=sys.argv):
         choices=Registry.names(),
         default="draft02",
     )
-    parser.add_argument(
-        "-q", "--quiet", help="Suppress all output", action="store_true", default=False
-    )
+    parser.add_argument("-q", "--quiet", help="Suppress all output", action="store_true", default=False)
     parser.add_argument(
         "-w",
         "--warnings",
@@ -176,9 +172,7 @@ def main(argv=sys.argv):
             write_console_line("DONE.")
         except Exception as e:
             write_console_line("FAILED.")
-            sys.stderr.write(
-                f"*** ERROR: Could not open URL {args.source}: {e}\n"
-            )
+            sys.stderr.write(f"*** ERROR: Could not open URL {args.source}: {e}\n")
             return 2
 
     try:
@@ -194,13 +188,9 @@ def main(argv=sys.argv):
             pass
         return result
     except Exception:
-        sys.stderr.write(
-            "\n\n*** GeoFeedValidator has encountered an internal error.\n"
-        )
+        sys.stderr.write("\n\n*** GeoFeedValidator has encountered an internal error.\n")
         sys.stderr.write("*** This is most likely related to a bug.\n")
-        sys.stderr.write(
-            "*** Please report this bug, including the traceback below to speijnik(at)anexia-it.com\n"
-        )
+        sys.stderr.write("*** Please report this bug, including the traceback below to speijnik(at)anexia-it.com\n")
         sys.stderr.write(f"*** TRACEBACK: {traceback.format_exc()}")
         return 255
 

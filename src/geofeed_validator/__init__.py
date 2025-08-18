@@ -56,9 +56,7 @@ class GeoFeedValidator:
         self._result = None
         self._store_raw_records = store_raw_records
 
-        if inspect.isclass(self._validator_name) and issubclass(
-            self._validator_name, BaseValidator
-        ):
+        if inspect.isclass(self._validator_name) and issubclass(self._validator_name, BaseValidator):
             self._validator = self._validator_name
             self._validator_name = self._validator.NAME
         elif isinstance(self._validator_name, str):
@@ -71,9 +69,7 @@ class GeoFeedValidator:
         elif is_file_like_object(feed):
             self._feed = feed
         else:
-            raise ValueError(
-                "feed argument must either be a string or a file-like object."
-            )
+            raise ValueError("feed argument must either be a string or a file-like object.")
 
     def validate(self):
         """
@@ -85,9 +81,7 @@ class GeoFeedValidator:
 
         # Create validator instance...
         if self._validator_instance is None:
-            self._validator_instance = self._validator(
-                self._feed, store_raw_records=self._store_raw_records
-            )
+            self._validator_instance = self._validator(self._feed, store_raw_records=self._store_raw_records)
         if self._result is None:
             self._result = self._validator_instance.validate()
         return self._result

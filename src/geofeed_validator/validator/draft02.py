@@ -51,18 +51,12 @@ class CSVValidatorDraft02WithAllocationSize(CSVValidatorDraft02):
         allocation_size = record.get_field_value(AllocationSizeField)
         if network and allocation_size:
             if allocation_size < 0:
-                record.add_field_errors(
-                    AllocationSizeField, "Allocation size must not be negative."
-                )
+                record.add_field_errors(AllocationSizeField, "Allocation size must not be negative.")
 
             if network.version == 4 and allocation_size > 32:
-                record.add_field_errors(
-                    AllocationSizeField, "IPv4 prefix length is 32 bits at maximum."
-                )
+                record.add_field_errors(AllocationSizeField, "IPv4 prefix length is 32 bits at maximum.")
             elif network.version == 6 and allocation_size > 128:
-                record.add_field_errors(
-                    AllocationSizeField, "IPv6 prefix length is 128 bits at maximum."
-                )
+                record.add_field_errors(AllocationSizeField, "IPv6 prefix length is 128 bits at maximum.")
 
             if 0 <= allocation_size < network.prefixlen:
                 record.add_field_errors(

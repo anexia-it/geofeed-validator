@@ -45,9 +45,7 @@ class GeoFeedValidatorTestCase(unittest.TestCase):
     def test_0001_init_default_validator(self):
         validator = GeoFeedValidator("", validator=None)
         self.assertEqual(GeoFeedValidator.DEFAULT_VALIDATOR, validator._validator_name)
-        self.assertEqual(
-            Registry.find(GeoFeedValidator.DEFAULT_VALIDATOR), validator._validator
-        )
+        self.assertEqual(Registry.find(GeoFeedValidator.DEFAULT_VALIDATOR), validator._validator)
 
     def test_0002_init_by_name(self):
         for name in Registry.names():

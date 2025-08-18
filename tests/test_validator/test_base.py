@@ -111,12 +111,8 @@ class BaseValidatorTestCase(unittest.TestCase):
         second_record = records[1]
         self.assertEqual(1, first_record.error_count)
         self.assertEqual(1, second_record.error_count)
-        self.assertEqual(
-            ["Duplicate of record #1"], first_record.get_field_result(nw_field).errors
-        )
-        self.assertEqual(
-            ["Duplicate of record #0"], second_record.get_field_result(nw_field).errors
-        )
+        self.assertEqual(["Duplicate of record #1"], first_record.get_field_result(nw_field).errors)
+        self.assertEqual(["Duplicate of record #0"], second_record.get_field_result(nw_field).errors)
 
     def test_0004_missing_geo_info(self):
         fields = (CountryField(), SubdivisionField(), CityField(), ZipCodeField())

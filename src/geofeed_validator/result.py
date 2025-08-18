@@ -101,9 +101,7 @@ class RecordValidationResult:
 
         for field in self._fields:
             if field not in self._record:
-                self._field_results.append(
-                    FieldResult(field, None, ["Field is missing."], [], None, "")
-                )
+                self._field_results.append(FieldResult(field, None, ["Field is missing."], [], None, ""))
             else:
                 # Validate the field data...
                 errors, warnings, cleaned_value = field.validate(self._record[field])
@@ -156,9 +154,7 @@ class RecordValidationResult:
         :rtype: FieldResult
         """
         field_name = field_name_or_class
-        if inspect.isclass(field_name_or_class) and issubclass(
-            field_name_or_class, Field
-        ):
+        if inspect.isclass(field_name_or_class) and issubclass(field_name_or_class, Field):
             field_name = field_name_or_class.NAME
         elif isinstance(field_name_or_class, Field):
             field_name = field_name_or_class.name
@@ -231,9 +227,7 @@ class ValidationResult:
             raw_data = None
 
         record_no = len(self._records)
-        record_validation = RecordValidationResult(
-            record_no, self._fields, record, raw_data
-        )
+        record_validation = RecordValidationResult(record_no, self._fields, record, raw_data)
         record_validation.validate()
         self._records.append(record_validation)
 

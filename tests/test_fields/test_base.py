@@ -249,9 +249,7 @@ class CountryFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
     FIELD_CLASS = CountryField
 
     def test_0001_invalid_alpha2(self):
-        self.assertEqual(
-            ((CountryField.ERROR,), tuple(), None), self.field.validate("INVALID")
-        )
+        self.assertEqual(((CountryField.ERROR,), tuple(), None), self.field.validate("INVALID"))
 
     def test_0002_valid_alpha2(self):
         self.assertEqual(
@@ -276,9 +274,7 @@ class SubdivisionFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
     FIELD_CLASS = SubdivisionField
 
     def test_0001_invalid_alpha2(self):
-        self.assertEqual(
-            ((SubdivisionField.ERROR,), tuple(), None), self.field.validate("INVALID")
-        )
+        self.assertEqual(((SubdivisionField.ERROR,), tuple(), None), self.field.validate("INVALID"))
 
     def test_0002_valid_alpha2(self):
         self.assertEqual(

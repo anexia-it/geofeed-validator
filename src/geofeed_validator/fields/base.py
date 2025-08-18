@@ -38,13 +38,9 @@ class Field:
 
     def __init__(self):
         if not isinstance(getattr(self, "ERROR", None), str):
-            raise ValueError(
-                f"ERROR class-attribute of {self.__class__!r} not set or invalid."
-            )
+            raise ValueError(f"ERROR class-attribute of {self.__class__!r} not set or invalid.")
         if not isinstance(getattr(self, "NAME", None), str):
-            raise ValueError(
-                f"NAME class-attribute of {self.__class__!r} not set or invalid."
-            )
+            raise ValueError(f"NAME class-attribute of {self.__class__!r} not set or invalid.")
         self._name = self.NAME
 
     @property
@@ -59,9 +55,7 @@ class Field:
 
     def validate(self, value):
         errors = self._normalize_check_result(self._check_errors(value), self.ERROR)
-        warnings = self._normalize_check_result(
-            self._check_warnings(value), self.WARNING
-        )
+        warnings = self._normalize_check_result(self._check_warnings(value), self.WARNING)
 
         cleaned_value = None
         try:
