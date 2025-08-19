@@ -62,7 +62,7 @@ class BaseValidator:
                 )
             )
 
-        self._fields = list()
+        self._fields = []
         for field_or_class in getattr(self, "FIELDS"):
             if (
                 not isinstance(field_or_class, Field)
@@ -147,7 +147,7 @@ class BaseValidator:
         """
         :type: result list of RecordValidationResult
         """
-        networks = dict()
+        networks = {}
 
         for record in result.records:
             # Check for duplicate network entries
@@ -192,7 +192,7 @@ class Registry:
     Validator registry
     """
 
-    VALIDATORS = dict()
+    VALIDATORS = {}
 
     @classmethod
     def register(cls, validator_class):

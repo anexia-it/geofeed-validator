@@ -79,10 +79,10 @@ class RecordValidationResult:
         #: :type: bool
         self._has_extra = "__extra__" in record
         #: :type: list of str
-        self._extra = list()
+        self._extra = []
         self._extra_offset = 0
         #: :type: list of FieldResult
-        self._field_results = list()
+        self._field_results = []
 
         if self._has_extra:
             self._extra = record["__extra__"]
@@ -213,7 +213,7 @@ class ValidationResult:
 
     def __init__(self, fields, store_raw_records=False):
         #: :type: list of RecordValidationResult
-        self._records = list()
+        self._records = []
         self._store_raw_records = store_raw_records
         self._fields = fields
 
@@ -233,7 +233,7 @@ class ValidationResult:
     @property
     def records_raw(self):
         if not self._store_raw_records:
-            return list()
+            return []
 
         # TODO: this seems to be broken if the number of records is one.
         return [r.raw for r in self._records]

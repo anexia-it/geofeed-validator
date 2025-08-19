@@ -94,7 +94,7 @@ class GeoFeedValidator:
 
     @property
     def fields(self):
-        return self._validator_instance.FIELDS if self._validator_instance else list()
+        return self._validator_instance.FIELDS if self._validator_instance else []
 
     def is_valid(self, allow_warnings=False):
         result = self.validate()

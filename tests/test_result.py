@@ -61,8 +61,8 @@ class FieldResultTestCase(unittest.TestCase):
         res = FieldResult(
             NetworkField(),
             netaddr.IPNetwork("127.0.0.0/8"),
-            tuple(),
-            tuple(),
+            (),
+            (),
             "",
             "127.0.0.0/8",
         )
@@ -161,7 +161,7 @@ class ValidationResultTestCase(unittest.TestCase):
         self.assertFalse(vr.is_valid())
         self.assertEqual(1, vr.error_count)
         self.assertEqual(0, vr.warning_count)
-        self.assertEqual(list(), vr.records_raw)
+        self.assertEqual([], vr.records_raw)
         self.assertEqual(1, len(vr.records))
         self.assertEqual((nw_field, city_field), vr.fields)
 

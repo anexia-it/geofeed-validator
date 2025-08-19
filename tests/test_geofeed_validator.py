@@ -94,6 +94,6 @@ class GeoFeedValidatorTestCase(unittest.TestCase):
 
     def test_0010_fields(self):
         validator = GeoFeedValidator("")
-        self.assertEqual(list(), validator.fields)
+        self.assertEqual([], validator.fields)
         validator.validate()
         self.assertEqual(validator._validator.FIELDS, validator.fields)

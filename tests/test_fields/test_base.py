@@ -103,7 +103,7 @@ class FieldTestCase(unittest.TestCase):
                 raise ValueError("test")
 
         test_field = TestField()
-        self.assertEqual(((TestField.ERROR,), tuple(), None), test_field.validate(None))
+        self.assertEqual(((TestField.ERROR,), (), None), test_field.validate(None))
 
     def test_0007_repr(self):
         class TestField(Field):
@@ -119,7 +119,7 @@ class FieldTestCase(unittest.TestCase):
             NAME = "test_field"
 
             def _check_errors(self, value):
-                return dict()
+                return {}
 
         test_field = TestField()
         self.assertRaises(ValueError, test_field.validate, None)
@@ -158,7 +158,7 @@ class FieldTestCase(unittest.TestCase):
                 return "error_string"
 
         test_field = TestField()
-        self.assertEqual((("error_string",), tuple(), None), test_field.validate(None))
+        self.assertEqual((("error_string",), (), None), test_field.validate(None))
 
     def test_0012_to_string_exception(self):
         class TestField(Field):
@@ -196,13 +196,13 @@ class NetworkFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
     FIELD_CLASS = NetworkField
 
     def test_0001_invalid_value(self):
-        self.assertEqual(((NetworkField.ERROR,), tuple(), None), self.field.validate(1))
+        self.assertEqual(((NetworkField.ERROR,), (), None), self.field.validate(1))
 
     def test_0002_loopback(self):
         self.assertEqual(
             (
                 (NetworkField.ERROR_LOOPBACK,),
-                tuple(),
+                (),
                 netaddr.IPNetwork("127.0.0.1/32"),
             ),
             self.field.validate("127.0.0.1"),
@@ -212,7 +212,7 @@ class NetworkFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
         self.assertEqual(
             (
                 (NetworkField.ERROR_MULTICAST,),
-                tuple(),
+                (),
                 netaddr.IPNetwork("224.0.0.1/32"),
             ),
             self.field.validate("224.0.0.1/32"),
@@ -222,7 +222,7 @@ class NetworkFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
         self.assertEqual(
             (
                 (NetworkField.ERROR_PRIVATE,),
-                tuple(),
+                (),
                 netaddr.IPNetwork("192.168.0.0/24"),
             ),
             self.field.validate("192.168.0.0/24"),
@@ -232,7 +232,7 @@ class NetworkFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
         self.assertEqual(
             (
                 (NetworkField.ERROR_RESERVED,),
-                tuple(),
+                (),
                 netaddr.IPNetwork("192.0.2.0/24"),
             ),
             self.field.validate("192.0.2.0/24"),
@@ -240,7 +240,7 @@ class NetworkFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
 
     def test_0006_valid(self):
         self.assertEqual(
-            (tuple(), tuple(), netaddr.IPNetwork("8.8.8.8")),
+            ((), (), netaddr.IPNetwork("8.8.8.8")),
             self.field.validate("8.8.8.8"),
         )
 
@@ -249,11 +249,11 @@ class CountryFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
     FIELD_CLASS = CountryField
 
     def test_0001_invalid_alpha2(self):
-        self.assertEqual(((CountryField.ERROR,), tuple(), None), self.field.validate("INVALID"))
+        self.assertEqual(((CountryField.ERROR,), (), None), self.field.validate("INVALID"))
 
     def test_0002_valid_alpha2(self):
         self.assertEqual(
-            (tuple(), tuple(), pycountry.countries.get(alpha_2="AT")),
+            ((), (), pycountry.countries.get(alpha_2="AT")),
             self.field.validate("AT"),
         )
 
@@ -274,11 +274,11 @@ class SubdivisionFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
     FIELD_CLASS = SubdivisionField
 
     def test_0001_invalid_alpha2(self):
-        self.assertEqual(((SubdivisionField.ERROR,), tuple(), None), self.field.validate("INVALID"))
+        self.assertEqual(((SubdivisionField.ERROR,), (), None), self.field.validate("INVALID"))
 
     def test_0002_valid_alpha2(self):
         self.assertEqual(
-            (tuple(), tuple(), pycountry.subdivisions.get(code="AT-1")),
+            ((), (), pycountry.subdivisions.get(code="AT-1")),
             self.field.validate("AT-1"),
         )
 

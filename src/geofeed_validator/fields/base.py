@@ -71,7 +71,7 @@ class Field:
             raise ValueError("None is not an allowed value.")
 
         if check_result is False:
-            return tuple()
+            return ()
 
         if check_result is True and default:
             check_result = (default,)

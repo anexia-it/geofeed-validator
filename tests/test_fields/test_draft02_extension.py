@@ -36,10 +36,10 @@ class AllocationSizeFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
     FIELD_CLASS = AllocationSizeField
 
     def test_0000_invalid_cidr_notation(self):
-        self.assertEqual(((AllocationSizeField.ERROR,), tuple(), None), self.field.validate("32"))
+        self.assertEqual(((AllocationSizeField.ERROR,), (), None), self.field.validate("32"))
 
     def test_0001_valid_cidr_notation(self):
-        self.assertEqual((tuple(), tuple(), 32), self.field.validate("/32"))
+        self.assertEqual(((), (), 32), self.field.validate("/32"))
 
     def test_0002_empty_string(self):
-        self.assertEqual((tuple(), tuple(), ""), self.field.validate(""))
+        self.assertEqual(((), (), ""), self.field.validate(""))

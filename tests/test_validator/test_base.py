@@ -222,7 +222,7 @@ class BaseCSVValidatorTestCase(unittest.TestCase):
             (cmt_fields, cmt_raw),
             (first_fields, first_raw),
             (second_fields, second_raw),
-        ) = [r for r in tv.get_records()]
+        ) = list(tv.get_records())
         self.assertEqual({}, cmt_fields)
         self.assertEqual("# test comment", cmt_raw)
         self.assertEqual("1,2,3", first_raw)
