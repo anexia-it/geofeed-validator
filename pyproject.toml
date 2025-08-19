@@ -51,5 +51,4 @@ line-length = 120
 
 [tool.ruff.lint]
 extend-ignore = ["C901"]
-#extend-select = ["B", "C", "E", "F", "I", "N", "SIM", "UP", "W"]
-extend-select = ["C", "E", "F", "I", "N", "SIM", "UP", "W"]
+extend-select = ["B", "C", "E", "F", "I", "N", "SIM", "UP", "W"]

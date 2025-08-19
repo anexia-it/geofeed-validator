@@ -63,7 +63,7 @@ class BaseValidator:
             )
 
         self._fields = []
-        for field_or_class in getattr(self, "FIELDS"):
+        for field_or_class in self.FIELDS:
             if (
                 not isinstance(field_or_class, Field)
                 and inspect.isclass(field_or_class)
@@ -180,7 +180,7 @@ class BaseCSVValidator(BaseValidator):
                 continue
 
             field_values = line.split(",")
-            record = dict(zip(self._fields, field_values))
+            record = dict(zip(self._fields, field_values, strict=False))
             if len(field_values) > len(self._fields):
                 record.update({"__extra__": field_values[len(self._fields) :]})
 
@@ -202,7 +202,7 @@ class Registry:
         if not isinstance(getattr(validator_class, "NAME", None), str):
             raise ValueError(f"NAME class-attribute missing from {validator_class!r}.")
 
-        cls.VALIDATORS[getattr(validator_class, "NAME")] = validator_class
+        cls.VALIDATORS[validator_class.NAME] = validator_class
 
     @classmethod
     def find(cls, name):
