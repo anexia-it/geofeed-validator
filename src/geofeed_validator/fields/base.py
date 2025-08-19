@@ -23,6 +23,8 @@
 # Stephan Peijnik <speijnik@anexia-it.com>
 #
 
+from contextlib import suppress
+
 import netaddr
 import pycountry
 
@@ -58,10 +60,8 @@ class Field:
         warnings = self._normalize_check_result(self._check_warnings(value), self.WARNING)
 
         cleaned_value = None
-        try:
+        with suppress(Exception):
             cleaned_value = self.to_python(value)
-        except Exception:
-            pass
 
         return errors, warnings, cleaned_value
 
@@ -137,10 +137,7 @@ class CountryField(Field):
     NAME = "country"
 
     def _check_errors(self, value):
-        if value:
-            if not self.to_python(value):
-                return True
-        return False
+        return bool(value and not self.to_python(value))
 
     def to_python(self, value):
         if value:
@@ -162,10 +159,7 @@ class SubdivisionField(Field):
     NAME = "subdivision"
 
     def _check_errors(self, value):
-        if value:
-            if not self.to_python(value):
-                return True
-        return False
+        return bool(value and not self.to_python(value))
 
     def to_python(self, value):
         if value:

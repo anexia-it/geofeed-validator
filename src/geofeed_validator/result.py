@@ -24,6 +24,7 @@
 #
 
 import inspect
+from contextlib import suppress
 
 from geofeed_validator.fields import Field
 
@@ -46,10 +47,8 @@ class FieldResult:
         field = state["field"]
         value = None
         if state.get("value_string", None):
-            try:
+            with suppress(Exception):
                 value = field.to_python(state["value_string"])
-            except Exception:
-                pass
 
         state["value"] = value
         self.__dict__.update(state)

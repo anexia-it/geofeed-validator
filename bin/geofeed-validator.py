@@ -29,16 +29,40 @@ import argparse
 import os
 import sys
 import traceback
-from urllib.request import urlopen
+from collections.abc import Iterator
+from contextlib import contextmanager
+from io import TextIOWrapper
+from urllib.request import _UrlopenRet, urlopen
 
 from geofeed_validator import GeoFeedValidator, Registry, __version__
 
 QUIET = False
 
 
-def write_console(fmt, *args, **kwargs):
-    global QUIET
+@contextmanager
+def _open_file(path: str) -> Iterator[TextIOWrapper]:
+    try:
+        with open(path) as file:
+            yield file
+    except OSError as e:
+        sys.stderr.write(f"*** ERROR: Could not read {path}: {e}\n")
+        sys.exit(2)
 
+
+@contextmanager
+def _open_url(url: str) -> Iterator[_UrlopenRet]:
+    try:
+        write_console("*** Fetching %s: ", url)
+        with urlopen(url, timeout=3) as fp:
+            write_console_line("DONE.")
+            yield fp
+    except Exception as e:
+        write_console_line("FAILED.")
+        sys.stderr.write(f"*** ERROR: Could not open URL {url}: {e}\n")
+        sys.exit(2)
+
+
+def write_console(fmt, *args, **kwargs):
     if QUIET:
         return
 
@@ -157,42 +181,21 @@ def main(argv=sys.argv):
     if args.version:
         return 0
 
-    fp = None
-    if os.path.exists(args.source):
+    opener = _open_file if os.path.exists(args.source) else _open_url
+    with opener(args.source) as fp:
         try:
-            fp = open(args.source)
-        except OSError as e:
-            sys.stderr.write(f"*** ERROR: Could not read {args.source}: {e}\n")
-            return 2
-
-    else:
-        try:
-            write_console("*** Fetching %s: ", args.source)
-            fp = urlopen(args.source, timeout=3)
-            write_console_line("DONE.")
-        except Exception as e:
-            write_console_line("FAILED.")
-            sys.stderr.write(f"*** ERROR: Could not open URL {args.source}: {e}\n")
-            return 2
-
-    try:
-        result = validate(
-            fp,
-            verbose=args.verbose,
-            validator_name=args.typ,
-            allow_warnings=not args.warnings,
-        )
-        try:
-            fp.close()
+            return validate(
+                fp,
+                verbose=args.verbose,
+                validator_name=args.typ,
+                allow_warnings=not args.warnings,
+            )
         except Exception:
-            pass
-        return result
-    except Exception:
-        sys.stderr.write("\n\n*** GeoFeedValidator has encountered an internal error.\n")
-        sys.stderr.write("*** This is most likely related to a bug.\n")
-        sys.stderr.write("*** Please report this bug, including the traceback below to speijnik(at)anexia-it.com\n")
-        sys.stderr.write(f"*** TRACEBACK: {traceback.format_exc()}")
-        return 255
+            sys.stderr.write("\n\n*** GeoFeedValidator has encountered an internal error.\n")
+            sys.stderr.write("*** This is most likely related to a bug.\n")
+            sys.stderr.write("*** Please report this bug, including the traceback below to speijnik(at)anexia-it.com\n")
+            sys.stderr.write(f"*** TRACEBACK: {traceback.format_exc()}")
+            return 255
 
 
 def version_header():
