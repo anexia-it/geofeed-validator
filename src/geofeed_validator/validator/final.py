@@ -1,4 +1,4 @@
-# geofeed_validator/validator/__init__.py
+# geofeed_validator/validator/final.py
 #
 # ANEXIA GeoFeed Validator
 #
@@ -20,18 +20,14 @@
 #
 # Authors:
 #
-# Stephan Peijnik <speijnik@anexia-it.com>
+# Gerhard Bogner <gbogner@anexia-it.com>
 #
 
-from .base import BaseCSVValidator, BaseValidator, Registry
-from .draft02 import CSVValidatorDraft02, CSVValidatorDraft02WithAllocationSize
-from .final import CSVValidatorFinal
+from geofeed_validator.fields import CityField, CountryField, NetworkField, SubdivisionField, ZipCodeField
+from geofeed_validator.validator.base import BaseCSVValidator, Registry
 
-__all__ = [
-    "BaseCSVValidator",
-    "BaseValidator",
-    "CSVValidatorDraft02",
-    "CSVValidatorDraft02WithAllocationSize",
-    "CSVValidatorFinal",
-    "Registry",
-]
+
+@Registry.register
+class CSVValidatorFinal(BaseCSVValidator):
+    NAME = "final"
+    FIELDS = [NetworkField, CountryField, SubdivisionField, CityField, ZipCodeField]

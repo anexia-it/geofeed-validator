@@ -38,7 +38,7 @@ class GeoFeedValidator:
     Validator class
     """
 
-    DEFAULT_VALIDATOR = "draft02"
+    DEFAULT_VALIDATOR = "final"
 
     def __init__(self, feed, validator=None, store_raw_records=False):
         """
