@@ -23,11 +23,36 @@
 # Gerhard Bogner <gbogner@anexia-it.com>
 #
 
-from geofeed_validator.fields import CityField, CountryField, NetworkField, SubdivisionField, ZipCodeField
+from geofeed_validator.fields import Alpha2CodeField, CityField, IPPrefixField, PostalCodeField, RegionField
 from geofeed_validator.validator.base import BaseCSVValidator, Registry
 
 
 @Registry.register
 class CSVValidatorFinal(BaseCSVValidator):
     NAME = "final"
-    FIELDS = [NetworkField, CountryField, SubdivisionField, CityField, ZipCodeField]
+    FIELDS = [IPPrefixField, Alpha2CodeField, RegionField, CityField, PostalCodeField]
+
+    # line breaks must be CRLF (RFC4180)
+
+    # mentions of planned extensions removed:
+    # - no more delegation size
+    # - no alternative formats
+    # mentions of finding geolocation fields removed:
+    # - no public authority
+    # - no rdns records
+    # -> well known uris still present
+    #   - validated via bgp
+    #
+    # notes:
+    # - demo validator in rfc
+    # - list of test lines in rfc
+    #   -> ensure they are included in the tests
+    #
+    # for ogf:
+    # -> no ttl in format, but can be communicated via http standard headers
+    # -> privacy and security:
+    #   - precise zip code (to building) must only be published with permission of the party being located
+    #   - should inform parties of privacy tradeoffs
+    #   - may allow differentiation between used/unused prefixes
+    #   - must validate source is allowed to publish prefix geofeed
+    #     - depends on how feed was discovered

@@ -240,11 +240,11 @@ class CountryFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
 
     def test_0008_caseinsensitive_alpha2(self):
         self.assertEqual(
-            (tuple(), tuple(), pycountry.countries.get(alpha_2="aT")),
+            ((), (), pycountry.countries.get(alpha_2="aT")),
             self.field.validate("AT"),
         )
         self.assertEqual(
-            (tuple(), tuple(), pycountry.countries.get(alpha_2="at")),
+            ((), (), pycountry.countries.get(alpha_2="at")),
             self.field.validate("AT"),
         )
 
@@ -272,13 +272,14 @@ class SubdivisionFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
 
     def test_0008_caseinsensitive_alpha2(self):
         self.assertEqual(
-            (tuple(), tuple(), pycountry.subdivisions.get(code="at-1")),
+            ((), (), pycountry.subdivisions.get(code="at-1")),
             self.field.validate("AT-1"),
         )
         self.assertEqual(
-            (tuple(), tuple(), pycountry.subdivisions.get(code="aT-1")),
+            ((), (), pycountry.subdivisions.get(code="aT-1")),
             self.field.validate("AT-1"),
         )
+
 
 class UnimplementedFieldTestCaseMixin(FieldTestCaseMixin):
     def test_0001_to_python_verbatim(self):

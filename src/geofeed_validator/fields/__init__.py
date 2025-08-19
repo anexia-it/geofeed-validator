@@ -24,5 +24,17 @@
 #
 
 from .base import CityField, CountryField, Field, NetworkField, SubdivisionField, ZipCodeField
+from .final import Alpha2CodeField, IPPrefixField, PostalCodeField, RegionField
 
-__all__ = ["CityField", "CountryField", "Field", "NetworkField", "SubdivisionField", "ZipCodeField"]
+__all__ = [
+    "Alpha2CodeField",
+    "CityField",
+    "CountryField",
+    "Field",
+    "IPPrefixField",
+    "NetworkField",
+    "PostalCodeField",
+    "RegionField",
+    "SubdivisionField",
+    "ZipCodeField",
+]

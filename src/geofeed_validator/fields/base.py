@@ -111,7 +111,6 @@ class NetworkField(Field):
     NAME = "network"
 
     def _check_errors(self, value):
-        net = None
         try:
             net = self.to_python(value)
         except Exception:
@@ -133,7 +132,7 @@ class NetworkField(Field):
 
 
 class CountryField(Field):
-    ERROR = "Not a valid ISO3316-2 country code"
+    ERROR = "Not a valid ISO3166-1 country code"
     NAME = "country"
 
     def _check_errors(self, value):
@@ -155,7 +154,7 @@ class CountryField(Field):
 
 
 class SubdivisionField(Field):
-    ERROR = "Not a valid ISO3316-2 subdivision code"
+    ERROR = "Not a valid ISO3166-2 subdivision code"
     NAME = "subdivision"
 
     def _check_errors(self, value):

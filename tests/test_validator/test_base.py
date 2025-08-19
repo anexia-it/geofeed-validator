@@ -146,17 +146,17 @@ class BaseValidatorTestCase(unittest.TestCase):
             self.assertEqual(0, r.warning_count)
 
         self.assertEqual(
-            ["Subdivision specified, but country missing/invalid."],
+            ["Region specified, but country missing/invalid."],
             case1_record.get_field_result(SubdivisionField).errors,
         )
         self.assertEqual(
             ["City specified, but country missing/invalid."], case2_record.get_field_result(CityField).errors
         )
         self.assertEqual(
-            ["Zipcode specified, but country missing/invalid."], case3_record.get_field_result(ZipCodeField).errors
+            ["Postal code specified, but country missing/invalid."], case3_record.get_field_result(ZipCodeField).errors
         )
         self.assertEqual(
-            ["Subdivision not a subdivison of given country."], case4_record.get_field_result(SubdivisionField).errors
+            ["Region not a subdivison of given country."], case4_record.get_field_result(SubdivisionField).errors
         )
 
 
