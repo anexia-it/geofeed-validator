@@ -93,10 +93,7 @@ def validate(fp, verbose=False, validator_name=None, allow_warnings=False):
     for record in result.records:
         line_status = "OK"
         if record.has_errors or record.has_warnings:
-            line_status = "{}{}".format(
-                "E" if record.has_errors else " ",
-                "W" if record.has_warnings else " ",
-            )
+            line_status = "{}{}".format("E" if record.has_errors else " ", "W" if record.has_warnings else " ")
 
             if record.has_errors:
                 records_with_errors += 1
@@ -104,13 +101,7 @@ def validate(fp, verbose=False, validator_name=None, allow_warnings=False):
                 records_with_warnings += 1
 
         if verbose or record.has_errors or record.has_warnings:
-            write_console_line(
-                "[%s %d %s] %s",
-                val.record_name,
-                record.record_no,
-                line_status,
-                record.raw,
-            )
+            write_console_line("[%s %d %s] %s", val.record_name, record.record_no, line_status, record.raw)
 
         for field_result in record.field_results:
             for err_string in field_result.errors:
@@ -147,28 +138,10 @@ def main(argv=sys.argv):
 
     parser = argparse.ArgumentParser(prog=argv[0])
     parser.add_argument("-v", "--verbose", help="Verbose output", action="store_true", default=False)
-    parser.add_argument(
-        "-V",
-        "--version",
-        help="Print version and exit.",
-        action="store_true",
-        default=False,
-    )
-    parser.add_argument(
-        "-t",
-        "--typ",
-        help="Validator type",
-        choices=Registry.names(),
-        default="draft02",
-    )
+    parser.add_argument("-V", "--version", help="Print version and exit.", action="store_true", default=False)
+    parser.add_argument("-t", "--typ", help="Validator type", choices=Registry.names(), default="draft02")
     parser.add_argument("-q", "--quiet", help="Suppress all output", action="store_true", default=False)
-    parser.add_argument(
-        "-w",
-        "--warnings",
-        help="Treat warnings as errors",
-        action="store_true",
-        default=False,
-    )
+    parser.add_argument("-w", "--warnings", help="Treat warnings as errors", action="store_true", default=False)
     parser.add_argument("source", type=str, help="URL or path to feed file")
 
     args = parser.parse_args(argv[1:])
@@ -184,12 +157,7 @@ def main(argv=sys.argv):
     opener = _open_file if os.path.exists(args.source) else _open_url
     with opener(args.source) as fp:
         try:
-            return validate(
-                fp,
-                verbose=args.verbose,
-                validator_name=args.typ,
-                allow_warnings=not args.warnings,
-            )
+            return validate(fp, verbose=args.verbose, validator_name=args.typ, allow_warnings=not args.warnings)
         except Exception:
             sys.stderr.write("\n\n*** GeoFeedValidator has encountered an internal error.\n")
             sys.stderr.write("*** This is most likely related to a bug.\n")

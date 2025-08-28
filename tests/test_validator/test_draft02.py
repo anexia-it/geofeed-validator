@@ -62,10 +62,7 @@ class CSVValidatorDraft02WithAllocationSizeTestCase(unittest.TestCase):
         self.assertEqual(["Allocation size must not be negative."], r0_as_field.errors)
         self.assertEqual(["IPv4 prefix length is 32 bits at maximum."], r1_as_field.errors)
         self.assertEqual(["IPv6 prefix length is 128 bits at maximum."], r2_as_field.errors)
-        self.assertEqual(
-            ["Default allocation size larger than network prefix length."],
-            r3_as_field.errors,
-        )
+        self.assertEqual(["Default allocation size larger than network prefix length."], r3_as_field.errors)
 
         self.assertEqual(0, len(r0_as_field.warnings))
         self.assertEqual(0, len(r1_as_field.warnings))
@@ -73,7 +70,4 @@ class CSVValidatorDraft02WithAllocationSizeTestCase(unittest.TestCase):
         self.assertEqual(0, len(r3_as_field.warnings))
         self.assertEqual(1, len(r4_as_field.warnings))
 
-        self.assertEqual(
-            ["Network prefix length is equal to default allocation size."],
-            r4_as_field.warnings,
-        )
+        self.assertEqual(["Network prefix length is equal to default allocation size."], r4_as_field.warnings)

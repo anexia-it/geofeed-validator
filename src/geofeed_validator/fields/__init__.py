@@ -23,20 +23,6 @@
 # Stephan Peijnik <speijnik@anexia-it.com>
 #
 
-from .base import (
-    CityField,
-    CountryField,
-    Field,
-    NetworkField,
-    SubdivisionField,
-    ZipCodeField,
-)
+from .base import CityField, CountryField, Field, NetworkField, SubdivisionField, ZipCodeField
 
-__all__ = [
-    "CityField",
-    "CountryField",
-    "Field",
-    "NetworkField",
-    "SubdivisionField",
-    "ZipCodeField",
-]
+__all__ = ["CityField", "CountryField", "Field", "NetworkField", "SubdivisionField", "ZipCodeField"]

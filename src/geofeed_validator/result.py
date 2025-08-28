@@ -119,9 +119,7 @@ class RecordValidationResult:
         if isinstance(errors, tuple):
             errors = list(errors)
         elif not isinstance(errors, list):
-            errors = [
-                errors,
-            ]
+            errors = [errors]
 
         field_result = self.get_field_result(field)
         if field_result:
@@ -134,9 +132,7 @@ class RecordValidationResult:
         if isinstance(warnings, tuple):
             warnings = list(warnings)
         elif not isinstance(warnings, list):
-            warnings = [
-                warnings,
-            ]
+            warnings = [warnings]
 
         field_result = self.get_field_result(field)
         if field_result:

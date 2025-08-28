@@ -28,14 +28,7 @@ import unittest
 import netaddr
 import pycountry
 
-from geofeed_validator.fields.base import (
-    CityField,
-    CountryField,
-    Field,
-    NetworkField,
-    SubdivisionField,
-    ZipCodeField,
-)
+from geofeed_validator.fields.base import CityField, CountryField, Field, NetworkField, SubdivisionField, ZipCodeField
 
 __all__ = [
     "FieldTestCase",
@@ -200,49 +193,28 @@ class NetworkFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
 
     def test_0002_loopback(self):
         self.assertEqual(
-            (
-                (NetworkField.ERROR_LOOPBACK,),
-                (),
-                netaddr.IPNetwork("127.0.0.1/32"),
-            ),
-            self.field.validate("127.0.0.1"),
+            ((NetworkField.ERROR_LOOPBACK,), (), netaddr.IPNetwork("127.0.0.1/32")), self.field.validate("127.0.0.1")
         )
 
     def test_0003_multicast(self):
         self.assertEqual(
-            (
-                (NetworkField.ERROR_MULTICAST,),
-                (),
-                netaddr.IPNetwork("224.0.0.1/32"),
-            ),
+            ((NetworkField.ERROR_MULTICAST,), (), netaddr.IPNetwork("224.0.0.1/32")),
             self.field.validate("224.0.0.1/32"),
         )
 
     def test_0004_private(self):
         self.assertEqual(
-            (
-                (NetworkField.ERROR_PRIVATE,),
-                (),
-                netaddr.IPNetwork("192.168.0.0/24"),
-            ),
+            ((NetworkField.ERROR_PRIVATE,), (), netaddr.IPNetwork("192.168.0.0/24")),
             self.field.validate("192.168.0.0/24"),
         )
 
     def test_0005_reserved(self):
         self.assertEqual(
-            (
-                (NetworkField.ERROR_RESERVED,),
-                (),
-                netaddr.IPNetwork("192.0.2.0/24"),
-            ),
-            self.field.validate("192.0.2.0/24"),
+            ((NetworkField.ERROR_RESERVED,), (), netaddr.IPNetwork("192.0.2.0/24")), self.field.validate("192.0.2.0/24")
         )
 
     def test_0006_valid(self):
-        self.assertEqual(
-            ((), (), netaddr.IPNetwork("8.8.8.8")),
-            self.field.validate("8.8.8.8"),
-        )
+        self.assertEqual(((), (), netaddr.IPNetwork("8.8.8.8")), self.field.validate("8.8.8.8"))
 
 
 class CountryFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
@@ -252,10 +224,7 @@ class CountryFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
         self.assertEqual(((CountryField.ERROR,), (), None), self.field.validate("INVALID"))
 
     def test_0002_valid_alpha2(self):
-        self.assertEqual(
-            ((), (), pycountry.countries.get(alpha_2="AT")),
-            self.field.validate("AT"),
-        )
+        self.assertEqual(((), (), pycountry.countries.get(alpha_2="AT")), self.field.validate("AT"))
 
     def test_0004_to_string_valid(self):
         self.assertEqual("AT", self.field.to_string("AT"))
@@ -277,10 +246,7 @@ class SubdivisionFieldTestCase(FieldTestCaseMixin, unittest.TestCase):
         self.assertEqual(((SubdivisionField.ERROR,), (), None), self.field.validate("INVALID"))
 
     def test_0002_valid_alpha2(self):
-        self.assertEqual(
-            ((), (), pycountry.subdivisions.get(code="AT-1")),
-            self.field.validate("AT-1"),
-        )
+        self.assertEqual(((), (), pycountry.subdivisions.get(code="AT-1")), self.field.validate("AT-1"))
 
     def test_0004_to_string_valid(self):
         self.assertEqual("AT-1", self.field.to_string("AT-1"))
