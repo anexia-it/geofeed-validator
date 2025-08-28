@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # test/test_geofeed_validator.py
 #
 # ANEXIA GeoFeed Validator
@@ -36,7 +35,7 @@ __all__ = ["GeoFeedValidatorTestCase"]
 
 class GeoFeedValidatorTestCase(unittest.TestCase):
     def test_0000_init_invalid_validator(self):
-        class TestClass(object):
+        class TestClass:
             pass
 
         self.assertRaises(ValueError, GeoFeedValidator, "", validator=1)
@@ -46,9 +45,7 @@ class GeoFeedValidatorTestCase(unittest.TestCase):
     def test_0001_init_default_validator(self):
         validator = GeoFeedValidator("", validator=None)
         self.assertEqual(GeoFeedValidator.DEFAULT_VALIDATOR, validator._validator_name)
-        self.assertEqual(
-            Registry.find(GeoFeedValidator.DEFAULT_VALIDATOR), validator._validator
-        )
+        self.assertEqual(Registry.find(GeoFeedValidator.DEFAULT_VALIDATOR), validator._validator)
 
     def test_0002_init_by_name(self):
         for name in Registry.names():
@@ -72,7 +69,7 @@ class GeoFeedValidatorTestCase(unittest.TestCase):
         GeoFeedValidator("")
 
     def test_0006_init_invalid(self):
-        class TestClass(object):
+        class TestClass:
             pass
 
         self.assertRaises(ValueError, GeoFeedValidator, TestClass())
@@ -97,6 +94,6 @@ class GeoFeedValidatorTestCase(unittest.TestCase):
 
     def test_0010_fields(self):
         validator = GeoFeedValidator("")
-        self.assertEqual(list(), validator.fields)
+        self.assertEqual([], validator.fields)
         validator.validate()
         self.assertEqual(validator._validator.FIELDS, validator.fields)

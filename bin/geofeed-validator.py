@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # bin/geofeed_validator.py
 #
@@ -30,16 +29,40 @@ import argparse
 import os
 import sys
 import traceback
-from urllib.request import urlopen
+from collections.abc import Iterator
+from contextlib import contextmanager
+from io import TextIOWrapper
+from urllib.request import _UrlopenRet, urlopen
 
 from geofeed_validator import GeoFeedValidator, Registry, __version__
 
 QUIET = False
 
 
-def write_console(fmt, *args, **kwargs):
-    global QUIET
+@contextmanager
+def _open_file(path: str) -> Iterator[TextIOWrapper]:
+    try:
+        with open(path) as file:
+            yield file
+    except OSError as e:
+        sys.stderr.write(f"*** ERROR: Could not read {path}: {e}\n")
+        sys.exit(2)
 
+
+@contextmanager
+def _open_url(url: str) -> Iterator[_UrlopenRet]:
+    try:
+        write_console("*** Fetching %s: ", url)
+        with urlopen(url, timeout=3) as fp:
+            write_console_line("DONE.")
+            yield fp
+    except Exception as e:
+        write_console_line("FAILED.")
+        sys.stderr.write(f"*** ERROR: Could not open URL {url}: {e}\n")
+        sys.exit(2)
+
+
+def write_console(fmt, *args, **kwargs):
     if QUIET:
         return
 
@@ -57,7 +80,7 @@ def validate(fp, verbose=False, validator_name=None, allow_warnings=False):
     try:
         validator_class = Registry.find(validator_name)
     except KeyError:
-        sys.stderr.write("Validator %s not found." % validator_name)
+        sys.stderr.write(f"Validator {validator_name} not found.")
         return 4
 
     val = GeoFeedValidator(fp, validator=validator_class, store_raw_records=True)
@@ -70,7 +93,7 @@ def validate(fp, verbose=False, validator_name=None, allow_warnings=False):
     for record in result.records:
         line_status = "OK"
         if record.has_errors or record.has_warnings:
-            line_status = "%s%s" % (
+            line_status = "{}{}".format(
                 "E" if record.has_errors else " ",
                 "W" if record.has_warnings else " ",
             )
@@ -123,9 +146,7 @@ def main(argv=sys.argv):
     global QUIET
 
     parser = argparse.ArgumentParser(prog=argv[0])
-    parser.add_argument(
-        "-v", "--verbose", help="Verbose output", action="store_true", default=False
-    )
+    parser.add_argument("-v", "--verbose", help="Verbose output", action="store_true", default=False)
     parser.add_argument(
         "-V",
         "--version",
@@ -140,9 +161,7 @@ def main(argv=sys.argv):
         choices=Registry.names(),
         default="draft02",
     )
-    parser.add_argument(
-        "-q", "--quiet", help="Suppress all output", action="store_true", default=False
-    )
+    parser.add_argument("-q", "--quiet", help="Suppress all output", action="store_true", default=False)
     parser.add_argument(
         "-w",
         "--warnings",
@@ -162,52 +181,25 @@ def main(argv=sys.argv):
     if args.version:
         return 0
 
-    fp = None
-    if os.path.exists(args.source):
+    opener = _open_file if os.path.exists(args.source) else _open_url
+    with opener(args.source) as fp:
         try:
-            fp = open(args.source, "r")
-        except IOError as e:
-            sys.stderr.write("*** ERROR: Could not read %s: %s\n" % (args.source, e))
-            return 2
-
-    else:
-        try:
-            write_console("*** Fetching %s: ", args.source)
-            fp = urlopen(args.source, timeout=3)
-            write_console_line("DONE.")
-        except Exception as e:
-            write_console_line("FAILED.")
-            sys.stderr.write(
-                "*** ERROR: Could not open URL %s: %s\n" % (args.source, e)
+            return validate(
+                fp,
+                verbose=args.verbose,
+                validator_name=args.typ,
+                allow_warnings=not args.warnings,
             )
-            return 2
-
-    try:
-        result = validate(
-            fp,
-            verbose=args.verbose,
-            validator_name=args.typ,
-            allow_warnings=not args.warnings,
-        )
-        try:
-            fp.close()
         except Exception:
-            pass
-        return result
-    except Exception:
-        sys.stderr.write(
-            "\n\n*** GeoFeedValidator has encountered an internal error.\n"
-        )
-        sys.stderr.write("*** This is most likely related to a bug.\n")
-        sys.stderr.write(
-            "*** Please report this bug, including the traceback below to speijnik(at)anexia-it.com\n"
-        )
-        sys.stderr.write("*** TRACEBACK: %s" % traceback.format_exc())
-        return 255
+            sys.stderr.write("\n\n*** GeoFeedValidator has encountered an internal error.\n")
+            sys.stderr.write("*** This is most likely related to a bug.\n")
+            sys.stderr.write("*** Please report this bug, including the traceback below to speijnik(at)anexia-it.com\n")
+            sys.stderr.write(f"*** TRACEBACK: {traceback.format_exc()}")
+            return 255
 
 
 def version_header():
-    write_console_line("*** ANEXIA GeoFeed Validator v%s" % __version__)
+    write_console_line(f"*** ANEXIA GeoFeed Validator v{__version__}")
 
 
 if __name__ == "__main__":

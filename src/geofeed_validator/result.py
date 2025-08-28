@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # geofeed_validator/validation.py
 #
 # ANEXIA GeoFeed Validator
@@ -25,11 +24,12 @@
 #
 
 import inspect
+from contextlib import suppress
 
 from geofeed_validator.fields import Field
 
 
-class FieldResult(object):
+class FieldResult:
     def __init__(self, field, value, errors, warnings, raw, value_string):
         self.field = field
         self.value = value
@@ -47,16 +47,14 @@ class FieldResult(object):
         field = state["field"]
         value = None
         if state.get("value_string", None):
-            try:
+            with suppress(Exception):
                 value = field.to_python(state["value_string"])
-            except Exception:
-                pass
 
         state["value"] = value
         self.__dict__.update(state)
 
 
-class RecordValidationResult(object):
+class RecordValidationResult:
     """
     Validation result for a single record
     """
@@ -81,10 +79,10 @@ class RecordValidationResult(object):
         #: :type: bool
         self._has_extra = "__extra__" in record
         #: :type: list of str
-        self._extra = list()
+        self._extra = []
         self._extra_offset = 0
         #: :type: list of FieldResult
-        self._field_results = list()
+        self._field_results = []
 
         if self._has_extra:
             self._extra = record["__extra__"]
@@ -102,9 +100,7 @@ class RecordValidationResult(object):
 
         for field in self._fields:
             if field not in self._record:
-                self._field_results.append(
-                    FieldResult(field, None, ["Field is missing."], [], None, "")
-                )
+                self._field_results.append(FieldResult(field, None, ["Field is missing."], [], None, ""))
             else:
                 # Validate the field data...
                 errors, warnings, cleaned_value = field.validate(self._record[field])
@@ -157,9 +153,7 @@ class RecordValidationResult(object):
         :rtype: FieldResult
         """
         field_name = field_name_or_class
-        if inspect.isclass(field_name_or_class) and issubclass(
-            field_name_or_class, Field
-        ):
+        if inspect.isclass(field_name_or_class) and issubclass(field_name_or_class, Field):
             field_name = field_name_or_class.NAME
         elif isinstance(field_name_or_class, Field):
             field_name = field_name_or_class.name
@@ -212,14 +206,14 @@ class RecordValidationResult(object):
         return self._was_ignored
 
 
-class ValidationResult(object):
+class ValidationResult:
     """
     Class representing a validation result.
     """
 
     def __init__(self, fields, store_raw_records=False):
         #: :type: list of RecordValidationResult
-        self._records = list()
+        self._records = []
         self._store_raw_records = store_raw_records
         self._fields = fields
 
@@ -232,16 +226,14 @@ class ValidationResult(object):
             raw_data = None
 
         record_no = len(self._records)
-        record_validation = RecordValidationResult(
-            record_no, self._fields, record, raw_data
-        )
+        record_validation = RecordValidationResult(record_no, self._fields, record, raw_data)
         record_validation.validate()
         self._records.append(record_validation)
 
     @property
     def records_raw(self):
         if not self._store_raw_records:
-            return list()
+            return []
 
         # TODO: this seems to be broken if the number of records is one.
         return [r.raw for r in self._records]

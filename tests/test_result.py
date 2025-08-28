@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # test/test_result.py
 #
 # ANEXIA GeoFeed Validator
@@ -62,8 +61,8 @@ class FieldResultTestCase(unittest.TestCase):
         res = FieldResult(
             NetworkField(),
             netaddr.IPNetwork("127.0.0.0/8"),
-            tuple(),
-            tuple(),
+            (),
+            (),
             "",
             "127.0.0.0/8",
         )
@@ -117,9 +116,7 @@ class RecordValidationResultTestCase(unittest.TestCase):
         nw_field = NetworkField()
         city_field = CityField()
 
-        res = RecordValidationResult(
-            456, (nw_field, city_field), {nw_field: "8.8.8.0/24"}, "8.8.8.0/24"
-        )
+        res = RecordValidationResult(456, (nw_field, city_field), {nw_field: "8.8.8.0/24"}, "8.8.8.0/24")
 
         res.validate()
         nw_field_result = res.get_field_result("network")
@@ -128,9 +125,7 @@ class RecordValidationResultTestCase(unittest.TestCase):
         self.assertEqual(0, len(nw_field_result.errors))
 
         self.assertEqual(netaddr.IPNetwork("8.8.8.0/24"), nw_field_result.value)
-        self.assertEqual(
-            netaddr.IPNetwork("8.8.8.0/24"), res.get_field_value("network")
-        )
+        self.assertEqual(netaddr.IPNetwork("8.8.8.0/24"), res.get_field_value("network"))
         self.assertEqual(netaddr.IPNetwork("8.8.8.0/24"), res.get_field_value(nw_field))
 
         self.assertEqual(1, len(city_field_result.errors))
@@ -148,9 +143,7 @@ class RecordValidationResultTestCase(unittest.TestCase):
         nw_field = NetworkField()
         city_field = CityField()
 
-        res = RecordValidationResult(
-            456, (nw_field, city_field), {nw_field: "8.8.8.0/24"}, "8.8.8.0/24"
-        )
+        res = RecordValidationResult(456, (nw_field, city_field), {nw_field: "8.8.8.0/24"}, "8.8.8.0/24")
 
         res.validate()
         self.assertEqual(None, res.get_field_result("subdivision"))
@@ -168,7 +161,7 @@ class ValidationResultTestCase(unittest.TestCase):
         self.assertFalse(vr.is_valid())
         self.assertEqual(1, vr.error_count)
         self.assertEqual(0, vr.warning_count)
-        self.assertEqual(list(), vr.records_raw)
+        self.assertEqual([], vr.records_raw)
         self.assertEqual(1, len(vr.records))
         self.assertEqual((nw_field, city_field), vr.fields)
 
@@ -226,17 +219,11 @@ class ValidationResultTestCase(unittest.TestCase):
         # 0 warnings: base
         for record in records:
             record.add_field_errors(nw_field, "test_error")  # 2 more errors
-            record.add_field_errors(
-                city_field, ["test_error1", "test_error2"]
-            )  # 4 more errors
+            record.add_field_errors(city_field, ["test_error1", "test_error2"])  # 4 more errors
             record.add_field_warnings(nw_field, "test_warning")  # 2 more warnings
-            record.add_field_warnings(
-                city_field, ["test_warning1", "test_warning2"]
-            )  # 4 more warnings
+            record.add_field_warnings(city_field, ["test_warning1", "test_warning2"])  # 4 more warnings
             record.add_field_errors(zipcode_field, ("test_error3",))  # 2 more errors
-            record.add_field_warnings(
-                subdivision_field, ("test_warning3",)
-            )  # 2 more warnings
+            record.add_field_warnings(subdivision_field, ("test_warning3",))  # 2 more warnings
 
         self.assertFalse(vr.is_valid())
         self.assertEqual(10, vr.error_count)
@@ -261,9 +248,7 @@ class ValidationResultTestCase(unittest.TestCase):
                 ["Field is missing.", "test_error1", "test_error2"],
                 city_field_result.errors,
             )
-            self.assertEqual(
-                ["test_warning1", "test_warning2"], city_field_result.warnings
-            )
+            self.assertEqual(["test_warning1", "test_warning2"], city_field_result.warnings)
 
             zipcode_field_result = record.get_field_result(zipcode_field)
             self.assertEqual(1, len(zipcode_field_result.errors))

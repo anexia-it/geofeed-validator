@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # geofeed_validator/fields/base.py
 #
 # ANEXIA GeoFeed Validator
@@ -24,11 +23,13 @@
 # Stephan Peijnik <speijnik@anexia-it.com>
 #
 
+from contextlib import suppress
+
 import netaddr
 import pycountry
 
 
-class Field(object):
+class Field:
     """
     Base class for representing a field
     """
@@ -39,13 +40,9 @@ class Field(object):
 
     def __init__(self):
         if not isinstance(getattr(self, "ERROR", None), str):
-            raise ValueError(
-                "ERROR class-attribute of %r not set or invalid." % self.__class__
-            )
+            raise ValueError(f"ERROR class-attribute of {self.__class__!r} not set or invalid.")
         if not isinstance(getattr(self, "NAME", None), str):
-            raise ValueError(
-                "NAME class-attribute of %r not set or invalid." % self.__class__
-            )
+            raise ValueError(f"NAME class-attribute of {self.__class__!r} not set or invalid.")
         self._name = self.NAME
 
     @property
@@ -60,15 +57,11 @@ class Field(object):
 
     def validate(self, value):
         errors = self._normalize_check_result(self._check_errors(value), self.ERROR)
-        warnings = self._normalize_check_result(
-            self._check_warnings(value), self.WARNING
-        )
+        warnings = self._normalize_check_result(self._check_warnings(value), self.WARNING)
 
         cleaned_value = None
-        try:
+        with suppress(Exception):
             cleaned_value = self.to_python(value)
-        except Exception:
-            pass
 
         return errors, warnings, cleaned_value
 
@@ -78,7 +71,7 @@ class Field(object):
             raise ValueError("None is not an allowed value.")
 
         if check_result is False:
-            return tuple()
+            return ()
 
         if check_result is True and default:
             check_result = (default,)
@@ -106,7 +99,7 @@ class Field(object):
         return None
 
     def __repr__(self):
-        return "<Field %s>" % (self.name)
+        return f"<Field {self.name}>"
 
 
 class NetworkField(Field):
@@ -144,10 +137,7 @@ class CountryField(Field):
     NAME = "country"
 
     def _check_errors(self, value):
-        if value:
-            if not self.to_python(value):
-                return True
-        return False
+        return bool(value and not self.to_python(value))
 
     def to_python(self, value):
         if value:
@@ -169,10 +159,7 @@ class SubdivisionField(Field):
     NAME = "subdivision"
 
     def _check_errors(self, value):
-        if value:
-            if not self.to_python(value):
-                return True
-        return False
+        return bool(value and not self.to_python(value))
 
     def to_python(self, value):
         if value:

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # test/test_validator/test_draft02.py
 #
 # ANEXIA GeoFeed Validator
@@ -61,12 +60,8 @@ class CSVValidatorDraft02WithAllocationSizeTestCase(unittest.TestCase):
         self.assertEqual(0, len(r4_as_field.errors))
 
         self.assertEqual(["Allocation size must not be negative."], r0_as_field.errors)
-        self.assertEqual(
-            ["IPv4 prefix length is 32 bits at maximum."], r1_as_field.errors
-        )
-        self.assertEqual(
-            ["IPv6 prefix length is 128 bits at maximum."], r2_as_field.errors
-        )
+        self.assertEqual(["IPv4 prefix length is 32 bits at maximum."], r1_as_field.errors)
+        self.assertEqual(["IPv6 prefix length is 128 bits at maximum."], r2_as_field.errors)
         self.assertEqual(
             ["Default allocation size larger than network prefix length."],
             r3_as_field.errors,

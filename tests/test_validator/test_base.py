@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # test/test_validator/test_base.py
 #
 # ANEXIA GeoFeed Validator
@@ -112,12 +111,8 @@ class BaseValidatorTestCase(unittest.TestCase):
         second_record = records[1]
         self.assertEqual(1, first_record.error_count)
         self.assertEqual(1, second_record.error_count)
-        self.assertEqual(
-            ["Duplicate of record #1"], first_record.get_field_result(nw_field).errors
-        )
-        self.assertEqual(
-            ["Duplicate of record #0"], second_record.get_field_result(nw_field).errors
-        )
+        self.assertEqual(["Duplicate of record #1"], first_record.get_field_result(nw_field).errors)
+        self.assertEqual(["Duplicate of record #0"], second_record.get_field_result(nw_field).errors)
 
     def test_0004_missing_geo_info(self):
         fields = (CountryField(), SubdivisionField(), CityField(), ZipCodeField())
@@ -181,7 +176,7 @@ class BaseValidatorTestCase(unittest.TestCase):
 
 class RegistryTestCase(unittest.TestCase):
     def test_0000_register_invalid_class(self):
-        class Test(object):
+        class Test:
             pass
 
         self.assertRaises(ValueError, Registry.register, Test)
@@ -227,7 +222,7 @@ class BaseCSVValidatorTestCase(unittest.TestCase):
             (cmt_fields, cmt_raw),
             (first_fields, first_raw),
             (second_fields, second_raw),
-        ) = [r for r in tv.get_records()]
+        ) = list(tv.get_records())
         self.assertEqual({}, cmt_fields)
         self.assertEqual("# test comment", cmt_raw)
         self.assertEqual("1,2,3", first_raw)
