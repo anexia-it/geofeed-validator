@@ -1,4 +1,4 @@
 [run]
 branch = true
-source = geofeed_validator
+source = src/geofeed_validator
 omit = tests/* bin/*
