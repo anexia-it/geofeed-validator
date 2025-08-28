@@ -26,23 +26,10 @@ import unittest
 
 import netaddr
 
-from geofeed_validator.fields import (
-    CityField,
-    NetworkField,
-    SubdivisionField,
-    ZipCodeField,
-)
-from geofeed_validator.result import (
-    FieldResult,
-    RecordValidationResult,
-    ValidationResult,
-)
+from geofeed_validator.fields import CityField, NetworkField, SubdivisionField, ZipCodeField
+from geofeed_validator.result import FieldResult, RecordValidationResult, ValidationResult
 
-__all__ = [
-    "FieldResultTestCase",
-    "RecordValidationResultTestCase",
-    "ValidationResultTestCase",
-]
+__all__ = ["FieldResultTestCase", "RecordValidationResultTestCase", "ValidationResultTestCase"]
 
 
 class FieldResultTestCase(unittest.TestCase):
@@ -58,14 +45,7 @@ class FieldResultTestCase(unittest.TestCase):
         self.assertEqual(res.value_string, 6)
 
     def test_0001_getstate_setstate(self):
-        res = FieldResult(
-            NetworkField(),
-            netaddr.IPNetwork("127.0.0.0/8"),
-            (),
-            (),
-            "",
-            "127.0.0.0/8",
-        )
+        res = FieldResult(NetworkField(), netaddr.IPNetwork("127.0.0.0/8"), (), (), "", "127.0.0.0/8")
 
         state = res.__getstate__()
         self.assertNotIn("value", state)
@@ -83,10 +63,7 @@ class RecordValidationResultTestCase(unittest.TestCase):
     def test_0000_valid_record(self):
         nw_field = NetworkField()
         res = RecordValidationResult(
-            123,
-            (nw_field,),
-            {nw_field: "8.8.8.0/24", "__extra__": ["test_extra"]},
-            "8.8.8.0/24",
+            123, (nw_field,), {nw_field: "8.8.8.0/24", "__extra__": ["test_extra"]}, "8.8.8.0/24"
         )
         self.assertEqual(123, res.record_no)
         self.assertEqual(["test_extra"], res.extra)
@@ -244,10 +221,7 @@ class ValidationResultTestCase(unittest.TestCase):
             city_field_result = record.get_field_result(city_field)
             self.assertEqual(3, len(city_field_result.errors))
             self.assertEqual(2, len(city_field_result.warnings))
-            self.assertEqual(
-                ["Field is missing.", "test_error1", "test_error2"],
-                city_field_result.errors,
-            )
+            self.assertEqual(["Field is missing.", "test_error1", "test_error2"], city_field_result.errors)
             self.assertEqual(["test_warning1", "test_warning2"], city_field_result.warnings)
 
             zipcode_field_result = record.get_field_result(zipcode_field)

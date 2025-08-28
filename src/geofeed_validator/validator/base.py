@@ -26,14 +26,7 @@
 import inspect
 import io
 
-from geofeed_validator.fields import (
-    CityField,
-    CountryField,
-    Field,
-    NetworkField,
-    SubdivisionField,
-    ZipCodeField,
-)
+from geofeed_validator.fields import CityField, CountryField, Field, NetworkField, SubdivisionField, ZipCodeField
 from geofeed_validator.result import ValidationResult
 from geofeed_validator.utils import is_file_like_object
 
@@ -108,18 +101,14 @@ class BaseValidator:
             if network_str in networks:
                 for other_network_record in networks[network_str]:
                     other_network_record.add_field_errors(
-                        NetworkField,
-                        f"Duplicate of {self.RECORD_NAME} #{record.record_no}",
+                        NetworkField, f"Duplicate of {self.RECORD_NAME} #{record.record_no}"
                     )
                     record.add_field_errors(
-                        NetworkField,
-                        f"Duplicate of {self.RECORD_NAME} #{other_network_record.record_no}",
+                        NetworkField, f"Duplicate of {self.RECORD_NAME} #{other_network_record.record_no}"
                     )
                 networks[network_str].append(record)
             else:
-                networks[network_str] = [
-                    record,
-                ]
+                networks[network_str] = [record]
         return networks
 
     def _validate_common_geoinfo(self, record):

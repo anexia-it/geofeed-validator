@@ -27,13 +27,7 @@ import io
 import unittest
 
 from geofeed_validator import BaseValidator, Registry
-from geofeed_validator.fields import (
-    CityField,
-    CountryField,
-    NetworkField,
-    SubdivisionField,
-    ZipCodeField,
-)
+from geofeed_validator.fields import CityField, CountryField, NetworkField, SubdivisionField, ZipCodeField
 from geofeed_validator.validator import BaseCSVValidator
 
 __all__ = ["BaseCSVValidatorTestCase", "BaseValidatorTestCase", "RegistryTestCase"]
@@ -79,9 +73,7 @@ class BaseValidatorTestCase(unittest.TestCase):
             FIELDS = (NetworkField,)
 
             def get_records(self):
-                return [
-                    ({}, ""),
-                ]
+                return [({}, "")]
 
         tv = TestValidator("")
         res = tv.validate()
@@ -95,10 +87,7 @@ class BaseValidatorTestCase(unittest.TestCase):
             FIELDS = (nw_field,)
 
             def get_records(self):
-                return [
-                    ({nw_field: "8.8.8.0/24"}, "8.8.8.0/24"),
-                    ({nw_field: "8.8.8.0/24"}, "8.8.8.0/24"),
-                ]
+                return [({nw_field: "8.8.8.0/24"}, "8.8.8.0/24"), ({nw_field: "8.8.8.0/24"}, "8.8.8.0/24")]
 
         tv = TestValidator("")
         res = tv.validate()
@@ -161,16 +150,13 @@ class BaseValidatorTestCase(unittest.TestCase):
             case1_record.get_field_result(SubdivisionField).errors,
         )
         self.assertEqual(
-            ["City specified, but country missing/invalid."],
-            case2_record.get_field_result(CityField).errors,
+            ["City specified, but country missing/invalid."], case2_record.get_field_result(CityField).errors
         )
         self.assertEqual(
-            ["Zipcode specified, but country missing/invalid."],
-            case3_record.get_field_result(ZipCodeField).errors,
+            ["Zipcode specified, but country missing/invalid."], case3_record.get_field_result(ZipCodeField).errors
         )
         self.assertEqual(
-            ["Subdivision not a subdivison of given country."],
-            case4_record.get_field_result(SubdivisionField).errors,
+            ["Subdivision not a subdivison of given country."], case4_record.get_field_result(SubdivisionField).errors
         )
 
 
@@ -218,17 +204,10 @@ class BaseCSVValidatorTestCase(unittest.TestCase):
             FIELDS = fields
 
         tv = TestValidator("# test comment\n1,2,3\n4,5,6,7")
-        (
-            (cmt_fields, cmt_raw),
-            (first_fields, first_raw),
-            (second_fields, second_raw),
-        ) = list(tv.get_records())
+        ((cmt_fields, cmt_raw), (first_fields, first_raw), (second_fields, second_raw)) = list(tv.get_records())
         self.assertEqual({}, cmt_fields)
         self.assertEqual("# test comment", cmt_raw)
         self.assertEqual("1,2,3", first_raw)
         self.assertEqual("4,5,6,7", second_raw)
         self.assertEqual({nw_field: "1", c_field: "2", sd_field: "3"}, first_fields)
-        self.assertEqual(
-            {nw_field: "4", c_field: "5", sd_field: "6", "__extra__": ["7"]},
-            second_fields,
-        )
+        self.assertEqual({nw_field: "4", c_field: "5", sd_field: "6", "__extra__": ["7"]}, second_fields)

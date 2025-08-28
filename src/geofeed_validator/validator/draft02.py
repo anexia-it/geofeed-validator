@@ -23,13 +23,7 @@
 # Stephan Peijnik <speijnik@anexia-it.com>
 #
 
-from geofeed_validator.fields import (
-    CityField,
-    CountryField,
-    NetworkField,
-    SubdivisionField,
-    ZipCodeField,
-)
+from geofeed_validator.fields import CityField, CountryField, NetworkField, SubdivisionField, ZipCodeField
 from geofeed_validator.fields.draft02_extension import AllocationSizeField
 from geofeed_validator.validator.base import BaseCSVValidator, Registry
 
@@ -60,13 +54,11 @@ class CSVValidatorDraft02WithAllocationSize(CSVValidatorDraft02):
 
             if 0 <= allocation_size < network.prefixlen:
                 record.add_field_errors(
-                    AllocationSizeField,
-                    "Default allocation size larger than network prefix length.",
+                    AllocationSizeField, "Default allocation size larger than network prefix length."
                 )
             elif network.prefixlen == allocation_size:
                 record.add_field_warnings(
-                    AllocationSizeField,
-                    "Network prefix length is equal to default allocation size.",
+                    AllocationSizeField, "Network prefix length is equal to default allocation size."
                 )
 
 
