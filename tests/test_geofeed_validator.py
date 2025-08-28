@@ -66,10 +66,10 @@ class GeoFeedValidatorTestCase(unittest.TestCase):
         self.assertEqual(Validator, validator._validator)
 
     def test_0004_init_filelike(self):
-        tv = GeoFeedValidator(io.StringIO())
+        GeoFeedValidator(io.StringIO())
 
     def test_0005_init_string(self):
-        tv = GeoFeedValidator("")
+        GeoFeedValidator("")
 
     def test_0006_init_invalid(self):
         class TestClass(object):

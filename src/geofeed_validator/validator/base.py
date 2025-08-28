@@ -221,7 +221,7 @@ class Registry(object):
 
     @classmethod
     def find(cls, name):
-        if not name in cls.VALIDATORS:
+        if name not in cls.VALIDATORS:
             raise KeyError("Validator with name %r not registered." % name)
         return cls.VALIDATORS[name]
 

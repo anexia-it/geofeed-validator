@@ -62,8 +62,8 @@ class BaseValidatorTestCase(unittest.TestCase):
             NAME = "test"
             FIELDS = (NetworkField,)
 
-        tv = TestValidator4("")
-        tv = TestValidator4(io.StringIO())
+        TestValidator4("")
+        TestValidator4(io.StringIO())
         self.assertRaises(ValueError, TestValidator4, None)
 
     def test_0001_get_records_unimplemented(self):

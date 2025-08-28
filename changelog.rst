@@ -3,10 +3,10 @@ Changelog
 
 next
 ----
-* Announce support for python3.9
-* Drop support for python < 3.6.2
-* Introduce pre-commit, isort, black, lint with them and add github actions enforcing those styles
-* Switch to poetry for dependency management and package building
+* Announce support for Python 3.14
+* Drop support for Python < 3.10
+* Introduce pre-commit and ruff and add github actions enforcing ruff checks
+* Switch to uv for dependency management and package building
 * Use pytest for testing
 
 0.6.1

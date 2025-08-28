@@ -26,3 +26,11 @@
 
 from .base import BaseCSVValidator, BaseValidator, Registry
 from .draft02 import CSVValidatorDraft02, CSVValidatorDraft02WithAllocationSize
+
+__all__ = [
+    "BaseCSVValidator",
+    "BaseValidator",
+    "CSVValidatorDraft02",
+    "CSVValidatorDraft02WithAllocationSize",
+    "Registry",
+]

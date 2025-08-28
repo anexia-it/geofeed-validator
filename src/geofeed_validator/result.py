@@ -49,7 +49,7 @@ class FieldResult(object):
         if state.get("value_string", None):
             try:
                 value = field.to_python(state["value_string"])
-            except:
+            except Exception:
                 pass
 
         state["value"] = value
@@ -101,7 +101,7 @@ class RecordValidationResult(object):
             return
 
         for field in self._fields:
-            if not field in self._record:
+            if field not in self._record:
                 self._field_results.append(
                     FieldResult(field, None, ["Field is missing."], [], None, "")
                 )

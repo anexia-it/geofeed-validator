@@ -191,10 +191,10 @@ def main(argv=sys.argv):
         )
         try:
             fp.close()
-        except:
+        except Exception:
             pass
         return result
-    except:
+    except Exception:
         sys.stderr.write(
             "\n\n*** GeoFeedValidator has encountered an internal error.\n"
         )

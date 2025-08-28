@@ -34,7 +34,7 @@ class AllocationSizeField(Field):
     def _check_errors(self, value):
         try:
             self.to_python(value)
-        except Exception as e:
+        except Exception:
             return True
         return False
 
