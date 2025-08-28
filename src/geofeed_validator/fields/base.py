@@ -24,8 +24,8 @@
 #
 
 from contextlib import suppress
+from ipaddress import IPv4Network, IPv6Network, ip_network
 
-import netaddr
 import pycountry
 
 
@@ -104,10 +104,11 @@ class Field:
 
 class NetworkField(Field):
     ERROR = "Not a valid IP network"
+    ERROR_LINKLOCAL = "Link-local network not allowed"
     ERROR_LOOPBACK = "Loopback network not allowed"
+    ERROR_MULTICAST = "Multicast network not allowed"
     ERROR_PRIVATE = "Private network not allowed"
     ERROR_RESERVED = "Reserved network not allowed"
-    ERROR_MULTICAST = "Multicast network not allowed"
     NAME = "network"
 
     def _check_errors(self, value):
@@ -116,19 +117,21 @@ class NetworkField(Field):
         except Exception:
             return True
 
-        if net.is_loopback():
+        if net.is_link_local:
+            return self.ERROR_LINKLOCAL
+        elif net.is_loopback:
             return self.ERROR_LOOPBACK
-        elif net.is_private():
-            return self.ERROR_PRIVATE
-        elif net.is_reserved():
-            return self.ERROR_RESERVED
-        elif net.is_multicast():
+        elif net.is_multicast:
             return self.ERROR_MULTICAST
+        elif net.is_reserved:  # reserved are also private - check first
+            return self.ERROR_RESERVED
+        elif net.is_private:
+            return self.ERROR_PRIVATE
 
         return False
 
-    def to_python(self, value):
-        return netaddr.IPNetwork(value)
+    def to_python(self, value) -> IPv4Network | IPv6Network:
+        return ip_network(value)
 
 
 class CountryField(Field):

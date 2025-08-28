@@ -27,8 +27,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-    "pycountry>=20.7.3",
-    "netaddr>=0.8,<1",
+    "pycountry>=24.6.1",
 ]
 description = "Validator library for self-published geo feeds"
 name = "geofeed-validator"
