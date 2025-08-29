@@ -2,7 +2,7 @@
 #
 # ANEXIA GeoFeed Validator
 #
-# Copyright (C) 2014 ANEXIA Internetdienstleistungs GmbH
+# Copyright (C) 2025 ANEXIA Internetdienstleistungs GmbH
 #
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,8 @@
 #
 
 from contextlib import suppress
+from ipaddress import IPv4Network, IPv6Network, ip_network
 
-import netaddr
 import pycountry
 
 
@@ -35,8 +35,9 @@ class Field:
     """
 
     ERROR = None
-    WARNING = None
     NAME = None
+    REQUIRED = True
+    WARNING = None
 
     def __init__(self):
         if not isinstance(getattr(self, "ERROR", None), str):
@@ -104,36 +105,42 @@ class Field:
 
 class NetworkField(Field):
     ERROR = "Not a valid IP network"
+    ERROR_HOSTBITS = "Network has host bits set (use %s instead)"
+    ERROR_LINKLOCAL = "Link-local network not allowed"
     ERROR_LOOPBACK = "Loopback network not allowed"
+    ERROR_MULTICAST = "Multicast network not allowed"
     ERROR_PRIVATE = "Private network not allowed"
     ERROR_RESERVED = "Reserved network not allowed"
-    ERROR_MULTICAST = "Multicast network not allowed"
     NAME = "network"
 
-    def _check_errors(self, value):
-        net = None
+    def _check_errors(self, value: str) -> bool | str:
         try:
             net = self.to_python(value)
         except Exception:
+            with suppress(ValueError):
+                net = ip_network(value, strict=False)
+                return self.ERROR_HOSTBITS.format(net.compressed)
             return True
 
-        if net.is_loopback():
+        if net.is_link_local:
+            return self.ERROR_LINKLOCAL
+        elif net.is_loopback:
             return self.ERROR_LOOPBACK
-        elif net.is_private():
-            return self.ERROR_PRIVATE
-        elif net.is_reserved():
-            return self.ERROR_RESERVED
-        elif net.is_multicast():
+        elif net.is_multicast:
             return self.ERROR_MULTICAST
+        elif net.is_reserved:  # reserved are also private - check first
+            return self.ERROR_RESERVED
+        elif net.is_private:
+            return self.ERROR_PRIVATE
 
         return False
 
-    def to_python(self, value):
-        return netaddr.IPNetwork(value)
+    def to_python(self, value: str) -> IPv4Network | IPv6Network:
+        return ip_network(value)
 
 
 class CountryField(Field):
-    ERROR = "Not a valid ISO3316-2 country code"
+    ERROR = "Not a valid ISO3166-1 country code"
     NAME = "country"
 
     def _check_errors(self, value):
@@ -155,7 +162,7 @@ class CountryField(Field):
 
 
 class SubdivisionField(Field):
-    ERROR = "Not a valid ISO3316-2 subdivision code"
+    ERROR = "Not a valid ISO3166-2 subdivision code"
     NAME = "subdivision"
 
     def _check_errors(self, value):

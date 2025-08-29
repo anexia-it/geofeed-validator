@@ -2,7 +2,7 @@
 #
 # ANEXIA GeoFeed Validator
 #
-# Copyright (C) 2014 ANEXIA Internetdienstleistungs GmbH
+# Copyright (C) 2025 ANEXIA Internetdienstleistungs GmbH
 #
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ class CSVValidatorDraft02WithAllocationSizeTestCase(unittest.TestCase):
         validator = CSVValidatorDraft02WithAllocationSize(
             """8.8.8.0/29,,,,,/-1
         8.8.9.0/29,,,,,/33
-        2001::/64,,,,,/129
+        2003::/64,,,,,/129
         8.8.10.0/29,,,,,/24
         8.8.11.0/29,,,,,/29""",
             store_raw_records=True,

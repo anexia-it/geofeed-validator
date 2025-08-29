@@ -4,7 +4,7 @@
 #
 # ANEXIA GeoFeed Validator
 #
-# Copyright (C) 2014 ANEXIA Internetdienstleistungs GmbH
+# Copyright (C) 2025 ANEXIA Internetdienstleistungs GmbH
 #
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -139,7 +139,9 @@ def main(argv=sys.argv):
     parser = argparse.ArgumentParser(prog=argv[0])
     parser.add_argument("-v", "--verbose", help="Verbose output", action="store_true", default=False)
     parser.add_argument("-V", "--version", help="Print version and exit.", action="store_true", default=False)
-    parser.add_argument("-t", "--typ", help="Validator type", choices=Registry.names(), default="draft02")
+    parser.add_argument(
+        "-t", "--type", help="Validator type", choices=Registry.names(), default=GeoFeedValidator.DEFAULT_VALIDATOR
+    )
     parser.add_argument("-q", "--quiet", help="Suppress all output", action="store_true", default=False)
     parser.add_argument("-w", "--warnings", help="Treat warnings as errors", action="store_true", default=False)
     parser.add_argument("source", type=str, help="URL or path to feed file")
@@ -157,7 +159,7 @@ def main(argv=sys.argv):
     opener = _open_file if os.path.exists(args.source) else _open_url
     with opener(args.source) as fp:
         try:
-            return validate(fp, verbose=args.verbose, validator_name=args.typ, allow_warnings=not args.warnings)
+            return validate(fp, verbose=args.verbose, validator_name=args.type, allow_warnings=not args.warnings)
         except Exception:
             sys.stderr.write("\n\n*** GeoFeedValidator has encountered an internal error.\n")
             sys.stderr.write("*** This is most likely related to a bug.\n")

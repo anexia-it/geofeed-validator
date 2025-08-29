@@ -2,7 +2,7 @@
 #
 # ANEXIA GeoFeed Validator
 #
-# Copyright (C) 2014 ANEXIA Internetdienstleistungs GmbH
+# Copyright (C) 2025 ANEXIA Internetdienstleistungs GmbH
 #
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ class GeoFeedValidator:
     Validator class
     """
 
-    DEFAULT_VALIDATOR = "draft02"
+    DEFAULT_VALIDATOR = "final"
 
     def __init__(self, feed, validator=None, store_raw_records=False):
         """

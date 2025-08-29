@@ -1,4 +1,4 @@
-# geofeed_validator/fields/base.py
+# geofeed_validator/validator/final.py
 #
 # ANEXIA GeoFeed Validator
 #
@@ -20,27 +20,18 @@
 #
 # Authors:
 #
-# Stephan Peijnik <speijnik@anexia-it.com>
+# Gerhard Bogner <gbogner@anexia-it.com>
 #
 
-from geofeed_validator.fields import Field
+from geofeed_validator.fields import Alpha2CodeField, CityFieldFinal, IPPrefixField, PostalCodeField, RegionField
+from geofeed_validator.validator.base import BaseCSVValidator, Registry
 
 
-class AllocationSizeField(Field):
-    ERROR = "Must be valid CIDR notation"
-    NAME = "allocation_size"
+class CSVValidatorFinal(BaseCSVValidator):
+    NAME = "final"
+    FIELDS = [IPPrefixField, Alpha2CodeField, RegionField, CityFieldFinal, PostalCodeField]
 
-    def _check_errors(self, value):
-        try:
-            self.to_python(value)
-        except Exception:
-            return True
-        return False
+    # TODO: line breaks must be CRLF (RFC4180)
 
-    def to_python(self, value):
-        if value and not value.startswith("/"):
-            raise ValueError("Value does not start with a slash")
-        elif value:
-            return int(value[1:])
-        else:
-            return ""
+
+Registry.register(CSVValidatorFinal)

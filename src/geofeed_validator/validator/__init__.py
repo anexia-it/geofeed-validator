@@ -2,7 +2,7 @@
 #
 # ANEXIA GeoFeed Validator
 #
-# Copyright (C) 2014 ANEXIA Internetdienstleistungs GmbH
+# Copyright (C) 2025 ANEXIA Internetdienstleistungs GmbH
 #
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -25,11 +25,13 @@
 
 from .base import BaseCSVValidator, BaseValidator, Registry
 from .draft02 import CSVValidatorDraft02, CSVValidatorDraft02WithAllocationSize
+from .final import CSVValidatorFinal
 
 __all__ = [
     "BaseCSVValidator",
     "BaseValidator",
     "CSVValidatorDraft02",
     "CSVValidatorDraft02WithAllocationSize",
+    "CSVValidatorFinal",
     "Registry",
 ]

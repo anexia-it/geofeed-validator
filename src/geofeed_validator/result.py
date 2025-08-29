@@ -2,7 +2,7 @@
 #
 # ANEXIA GeoFeed Validator
 #
-# Copyright (C) 2014 ANEXIA Internetdienstleistungs GmbH
+# Copyright (C) 2025 ANEXIA Internetdienstleistungs GmbH
 #
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -82,7 +82,7 @@ class RecordValidationResult:
         self._extra = []
         self._extra_offset = 0
         #: :type: list of FieldResult
-        self._field_results = []
+        self._field_results: list[FieldResult] = []
 
         if self._has_extra:
             self._extra = record["__extra__"]
@@ -90,7 +90,7 @@ class RecordValidationResult:
             self._extra_offset = len(record)
 
     @property
-    def field_results(self):
+    def field_results(self) -> list[FieldResult]:
         return self._field_results
 
     def validate(self):
@@ -100,7 +100,16 @@ class RecordValidationResult:
 
         for field in self._fields:
             if field not in self._record:
-                self._field_results.append(FieldResult(field, None, ["Field is missing."], [], None, ""))
+                self._field_results.append(
+                    FieldResult(
+                        field,
+                        None,
+                        ["Field is missing."] if field.REQUIRED else [],
+                        [] if field.REQUIRED else ["Field is missing."],
+                        None,
+                        "",
+                    )
+                )
             else:
                 # Validate the field data...
                 errors, warnings, cleaned_value = field.validate(self._record[field])
@@ -209,7 +218,7 @@ class ValidationResult:
 
     def __init__(self, fields, store_raw_records=False):
         #: :type: list of RecordValidationResult
-        self._records = []
+        self._records: list[RecordValidationResult] = []
         self._store_raw_records = store_raw_records
         self._fields = fields
 

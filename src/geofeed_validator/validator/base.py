@@ -2,7 +2,7 @@
 #
 # ANEXIA GeoFeed Validator
 #
-# Copyright (C) 2014 ANEXIA Internetdienstleistungs GmbH
+# Copyright (C) 2025 ANEXIA Internetdienstleistungs GmbH
 #
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -94,17 +94,22 @@ class BaseValidator:
         return result
 
     def _validate_common_network_duplicates(self, networks, record):
-        network = record.get_field_result(NetworkField)
+        (ip_prefix_field,) = [
+            field
+            for field in self.FIELDS
+            if (issubclass(field, NetworkField) if inspect.isclass(field) else isinstance(field, NetworkField))
+        ] or (None,)
+        ip_prefix = record.get_field_result(ip_prefix_field)
 
-        if network:
-            network_str = str(network.value)
+        if ip_prefix:
+            network_str = str(ip_prefix.value)
             if network_str in networks:
-                for other_network_record in networks[network_str]:
-                    other_network_record.add_field_errors(
-                        NetworkField, f"Duplicate of {self.RECORD_NAME} #{record.record_no}"
+                for other_record in networks[network_str]:
+                    other_record.add_field_errors(
+                        ip_prefix_field, f"Duplicate of {self.RECORD_NAME} #{record.record_no}"
                     )
                     record.add_field_errors(
-                        NetworkField, f"Duplicate of {self.RECORD_NAME} #{other_network_record.record_no}"
+                        ip_prefix_field, f"Duplicate of {self.RECORD_NAME} #{other_record.record_no}"
                     )
                 networks[network_str].append(record)
             else:
@@ -112,22 +117,43 @@ class BaseValidator:
         return networks
 
     def _validate_common_geoinfo(self, record):
-        country = record.get_field_value(CountryField)
-        subdivision = record.get_field_value(SubdivisionField)
-        city = record.get_field_value(CityField)
-        zipcode = record.get_field_value(ZipCodeField)
+        (alpha2_code_field,) = [
+            field
+            for field in self.FIELDS
+            if (issubclass(field, CountryField) if inspect.isclass(field) else isinstance(field, CountryField))
+        ] or (None,)
+        (region_field,) = [
+            field
+            for field in self.FIELDS
+            if (issubclass(field, SubdivisionField) if inspect.isclass(field) else isinstance(field, SubdivisionField))
+        ] or (None,)
+        (city_field,) = [
+            field
+            for field in self.FIELDS
+            if (issubclass(field, CityField) if inspect.isclass(field) else isinstance(field, CityField))
+        ] or (None,)
+        (postal_code_field,) = [
+            field
+            for field in self.FIELDS
+            if (issubclass(field, ZipCodeField) if inspect.isclass(field) else isinstance(field, ZipCodeField))
+        ] or (None,)
 
-        if country and subdivision and subdivision.country != country:
-            record.add_field_errors(SubdivisionField, "Subdivision not a subdivison of given country.")
+        alpha2_code = record.get_field_value(alpha2_code_field)
+        region = record.get_field_value(region_field)
+        city = record.get_field_value(city_field)
+        postal_code = record.get_field_value(postal_code_field)
 
-        elif subdivision and not country:
-            record.add_field_errors(SubdivisionField, "Subdivision specified, but country missing/invalid.")
+        if alpha2_code and region and region.country != alpha2_code:
+            record.add_field_errors(region_field, "Region not a subdivison of given country.")
 
-        if city and not country:
-            record.add_field_errors(CityField, "City specified, but country missing/invalid.")
+        elif region and not alpha2_code:
+            record.add_field_errors(region_field, "Region specified, but country missing/invalid.")
 
-        if zipcode and not country:
-            record.add_field_errors(ZipCodeField, "Zipcode specified, but country missing/invalid.")
+        if city and not alpha2_code:
+            record.add_field_errors(city_field, "City specified, but country missing/invalid.")
+
+        if postal_code and not alpha2_code:
+            record.add_field_errors(postal_code_field, "Postal code specified, but country missing/invalid.")
 
     def _validate_common_extra(self, record):
         pass

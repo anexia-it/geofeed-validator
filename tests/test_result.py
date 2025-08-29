@@ -2,7 +2,7 @@
 #
 # ANEXIA GeoFeed Validator
 #
-# Copyright (C) 2014 ANEXIA Internetdienstleistungs GmbH
+# Copyright (C) 2025 ANEXIA Internetdienstleistungs GmbH
 #
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,7 @@
 # Stephan Peijnik <speijnik@anexia-it.com>
 
 import unittest
-
-import netaddr
+from ipaddress import ip_network
 
 from geofeed_validator.fields import CityField, NetworkField, SubdivisionField, ZipCodeField
 from geofeed_validator.result import FieldResult, RecordValidationResult, ValidationResult
@@ -45,14 +44,14 @@ class FieldResultTestCase(unittest.TestCase):
         self.assertEqual(res.value_string, 6)
 
     def test_0001_getstate_setstate(self):
-        res = FieldResult(NetworkField(), netaddr.IPNetwork("127.0.0.0/8"), (), (), "", "127.0.0.0/8")
+        res = FieldResult(NetworkField(), ip_network("127.0.0.0/8"), (), (), "", "127.0.0.0/8")
 
         state = res.__getstate__()
         self.assertNotIn("value", state)
 
         state["value_string"] = "192.168.0.0/24"
         res.__setstate__(state)
-        self.assertEqual(netaddr.IPNetwork("192.168.0.0/24"), res.value)
+        self.assertEqual(ip_network("192.168.0.0/24"), res.value)
 
         state["value_string"] = "INVALID"
         res.__setstate__(state)
@@ -78,7 +77,7 @@ class RecordValidationResultTestCase(unittest.TestCase):
         self.assertEqual(0, res.error_count)
         network_field_result = field_results[0]
         self.assertEqual(nw_field, network_field_result.field)
-        self.assertEqual(netaddr.IPNetwork("8.8.8.0/24"), network_field_result.value)
+        self.assertEqual(ip_network("8.8.8.0/24"), network_field_result.value)
 
     def test_0001_ignore_record(self):
         nw_field = NetworkField()
@@ -101,9 +100,9 @@ class RecordValidationResultTestCase(unittest.TestCase):
 
         self.assertEqual(0, len(nw_field_result.errors))
 
-        self.assertEqual(netaddr.IPNetwork("8.8.8.0/24"), nw_field_result.value)
-        self.assertEqual(netaddr.IPNetwork("8.8.8.0/24"), res.get_field_value("network"))
-        self.assertEqual(netaddr.IPNetwork("8.8.8.0/24"), res.get_field_value(nw_field))
+        self.assertEqual(ip_network("8.8.8.0/24"), nw_field_result.value)
+        self.assertEqual(ip_network("8.8.8.0/24"), res.get_field_value("network"))
+        self.assertEqual(ip_network("8.8.8.0/24"), res.get_field_value(nw_field))
 
         self.assertEqual(1, len(city_field_result.errors))
         self.assertEqual(None, city_field_result.value)

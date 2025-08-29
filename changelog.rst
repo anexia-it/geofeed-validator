@@ -3,6 +3,7 @@ Changelog
 
 next
 ----
+* Add support for final version of RFC8805
 * Announce support for Python 3.14
 * Drop support for Python < 3.10
 * Introduce pre-commit and ruff and add github actions enforcing ruff checks

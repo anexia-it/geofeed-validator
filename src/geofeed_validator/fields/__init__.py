@@ -2,7 +2,7 @@
 #
 # ANEXIA GeoFeed Validator
 #
-# Copyright (C) 2014 ANEXIA Internetdienstleistungs GmbH
+# Copyright (C) 2025 ANEXIA Internetdienstleistungs GmbH
 #
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -24,5 +24,18 @@
 #
 
 from .base import CityField, CountryField, Field, NetworkField, SubdivisionField, ZipCodeField
+from .final import Alpha2CodeField, CityFieldFinal, IPPrefixField, PostalCodeField, RegionField
 
-__all__ = ["CityField", "CountryField", "Field", "NetworkField", "SubdivisionField", "ZipCodeField"]
+__all__ = [
+    "Alpha2CodeField",
+    "CityField",
+    "CityFieldFinal",
+    "CountryField",
+    "Field",
+    "IPPrefixField",
+    "NetworkField",
+    "PostalCodeField",
+    "RegionField",
+    "SubdivisionField",
+    "ZipCodeField",
+]
