@@ -25,26 +25,32 @@
 
 from pycountry import countries
 
-from geofeed_validator.fields import CountryField, NetworkField, SubdivisionField, ZipCodeField
+from geofeed_validator.fields import CityField, CountryField, NetworkField, SubdivisionField, ZipCodeField
 
 
 class Alpha2CodeField(CountryField):
     ERROR = "Not a valid ISO3166-1 alpha-2 code"
     NAME = "alpha2code"
+    REQUIRED = False
     WARNING = "Not an assigned ISO3316-1 alpha-2 code"
 
     def _check_errors(self, value: str) -> bool:
-        return not (len(value) == 2 and value.isalpha() and value.isascii())
+        return bool(value) and not (len(value) == 2 and value.isalpha() and value.isascii())
 
     def _check_warnings(self, value: str) -> bool:
-        return bool(value and not self.to_python(value))
+        return len(value) == 2 and value.isalpha() and value.isascii() and not self.to_python(value)
 
     def to_python(self, value):
         return countries.get(alpha_2=value.upper()) if value else None
 
 
+class CityFieldFinal(CityField):
+    REQUIRED = False
+
+
 class IPPrefixField(NetworkField):
     ERROR = NetworkField.ERROR.replace("network", "prefix")
+    ERROR_HOSTBITS = NetworkField.ERROR_HOSTBITS.replace("Network", "IP prefix")
     ERROR_LOOPBACK = NetworkField.ERROR_LOOPBACK.replace("network", "IP prefix")
     ERROR_PRIVATE = NetworkField.ERROR_PRIVATE.replace("network", "IP prefix")
     ERROR_RESERVED = NetworkField.ERROR_RESERVED.replace("network", "IP prefix")
@@ -54,6 +60,7 @@ class IPPrefixField(NetworkField):
 
 class PostalCodeField(ZipCodeField):
     NAME = "postal_code"
+    REQUIRED = False
     WARNING = "This field is deprecated and should no longer be used"
 
     def _check_errors(self, value):
@@ -65,3 +72,4 @@ class PostalCodeField(ZipCodeField):
 
 class RegionField(SubdivisionField):
     NAME = "region"
+    REQUIRED = False

@@ -23,15 +23,15 @@
 # Gerhard Bogner <gbogner@anexia-it.com>
 #
 
-from geofeed_validator.fields import Alpha2CodeField, CityField, IPPrefixField, PostalCodeField, RegionField
+from geofeed_validator.fields import Alpha2CodeField, CityFieldFinal, IPPrefixField, PostalCodeField, RegionField
 from geofeed_validator.validator.base import BaseCSVValidator, Registry
 
 
-@Registry.register
 class CSVValidatorFinal(BaseCSVValidator):
     NAME = "final"
-    FIELDS = [IPPrefixField, Alpha2CodeField, RegionField, CityField, PostalCodeField]
+    FIELDS = [IPPrefixField, Alpha2CodeField, RegionField, CityFieldFinal, PostalCodeField]
 
     # TODO: line breaks must be CRLF (RFC4180)
-    # TODO: compare with demo validator in rfc
-    # TODO: tests for test lines in rfc
+
+
+Registry.register(CSVValidatorFinal)

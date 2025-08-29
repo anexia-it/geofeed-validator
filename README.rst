@@ -1,11 +1,11 @@
 =================
 geofeed-validator
 =================
-.. image:: https://github.com/anexia-it/geofeed-validator/actions/workflows/python-package.yml/badge.svg?branch=master
-	:target: https://github.com/anexia-it/geofeed-validator/actions/workflows/python-package.yml/badge.svg?branch=master
+.. image:: https://github.com/anexia-it/geofeed-validator/actions/workflows/python-package.yml/badge.svg?branch=main
+	:target: https://github.com/anexia-it/geofeed-validator/actions/workflows/python-package.yml/badge.svg?branch=main
 
-.. image:: https://coveralls.io/repos/anexia-it/geofeed-validator/badge.png?branch=master
-	:target: https://coveralls.io/r/anexia-it/geofeed-validator?branch=master
+.. image:: https://coveralls.io/repos/anexia-it/geofeed-validator/badge.png?branch=main
+	:target: https://coveralls.io/r/anexia-it/geofeed-validator?branch=main
 
 .. image:: https://img.shields.io/pypi/dm/geofeed_validator.svg
         :target: https://pypi.python.org/pypi/geofeed_validator/

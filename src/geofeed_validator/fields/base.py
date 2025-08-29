@@ -35,8 +35,9 @@ class Field:
     """
 
     ERROR = None
-    WARNING = None
     NAME = None
+    REQUIRED = True
+    WARNING = None
 
     def __init__(self):
         if not isinstance(getattr(self, "ERROR", None), str):
@@ -104,6 +105,7 @@ class Field:
 
 class NetworkField(Field):
     ERROR = "Not a valid IP network"
+    ERROR_HOSTBITS = "Network has host bits set (use %s instead)"
     ERROR_LINKLOCAL = "Link-local network not allowed"
     ERROR_LOOPBACK = "Loopback network not allowed"
     ERROR_MULTICAST = "Multicast network not allowed"
@@ -111,10 +113,13 @@ class NetworkField(Field):
     ERROR_RESERVED = "Reserved network not allowed"
     NAME = "network"
 
-    def _check_errors(self, value):
+    def _check_errors(self, value: str) -> bool | str:
         try:
             net = self.to_python(value)
         except Exception:
+            with suppress(ValueError):
+                net = ip_network(value, strict=False)
+                return self.ERROR_HOSTBITS.format(net.compressed)
             return True
 
         if net.is_link_local:
@@ -130,7 +135,7 @@ class NetworkField(Field):
 
         return False
 
-    def to_python(self, value) -> IPv4Network | IPv6Network:
+    def to_python(self, value: str) -> IPv4Network | IPv6Network:
         return ip_network(value)
 
 

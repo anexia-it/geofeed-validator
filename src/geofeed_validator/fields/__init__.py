@@ -24,11 +24,12 @@
 #
 
 from .base import CityField, CountryField, Field, NetworkField, SubdivisionField, ZipCodeField
-from .final import Alpha2CodeField, IPPrefixField, PostalCodeField, RegionField
+from .final import Alpha2CodeField, CityFieldFinal, IPPrefixField, PostalCodeField, RegionField
 
 __all__ = [
     "Alpha2CodeField",
     "CityField",
+    "CityFieldFinal",
     "CountryField",
     "Field",
     "IPPrefixField",
