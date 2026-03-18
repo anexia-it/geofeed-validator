@@ -7,17 +7,14 @@ geofeed-validator
 .. image:: https://coveralls.io/repos/anexia-it/geofeed-validator/badge.png?branch=main
 	:target: https://coveralls.io/r/anexia-it/geofeed-validator?branch=main
 
-.. image:: https://img.shields.io/pypi/dm/geofeed_validator.svg
-        :target: https://pypi.python.org/pypi/geofeed_validator/
-
 .. image:: https://img.shields.io/pypi/v/geofeed_validator.svg
-        :target: https://pypi.python.org/pypi/geofeed_validator/
+    :target: https://pypi.python.org/pypi/geofeed_validator/
 
 .. image:: https://img.shields.io/pypi/wheel/geofeed_validator.svg
-        :target: https://pypi.python.org/pypi/geofeed_validator/
+    :target: https://pypi.python.org/pypi/geofeed_validator/
 
 .. image:: https://img.shields.io/pypi/l/geofeed_validator.svg
-        :target: https://pypi.python.org/pypi/geofeed_validator/
+    :target: https://pypi.python.org/pypi/geofeed_validator/
 
 
 geofeed-validator is a Python library which implements validation for self-published geofeeds as defined in
