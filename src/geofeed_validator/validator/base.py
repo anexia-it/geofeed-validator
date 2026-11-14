@@ -101,7 +101,7 @@ class BaseValidator:
         ] or (None,)
         ip_prefix = record.get_field_result(ip_prefix_field)
 
-        if ip_prefix:
+        if (ip_prefix is not None) and (ip_prefix.value is not None):
             network_str = str(ip_prefix.value)
             if network_str in networks:
                 for other_record in networks[network_str]:
